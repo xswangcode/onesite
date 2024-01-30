@@ -315,15 +315,10 @@ let menuList = [
     icon: "Menu",
     children: [
       {
-        url: "/self1",
-        title: "个人开发1",
+        url: "/flex-layout",
+        title: "flex布局",
         icon: "Menu",
-      },
-      {
-        url: "/self2",
-        title: "个人开发2",
-        icon: "Menu",
-      },
+      }
     ],
   },
   {

@@ -492,21 +492,13 @@ const routes = [{
     },
     children:[
       {
-        path: "/self1",
-        name: "self1",
+        path: "/flex-layout",
+        name: "flex-layout",
         component:  () => import("../views/preview/index.vue"),
         meta: {
-          name: "个人开发1",
+          name: "flex-布局",
         },
-      },
-      {
-        path: "/self2",
-        name: "self2",
-        component:  () => import("../views/preview/index.vue"),
-        meta: {
-          name: "个人开发1",
-        },
-      },
+      }
     ]
   },
   {
