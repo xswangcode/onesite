@@ -5,7 +5,6 @@ const AppRouters = require("./src/appRouters")
 
 const app = new Koa();
 AppRouters.routersList.forEach(router => {
-  console.log(router);
   app.use(router.routes())
 });
 app.listen(3000,()=>{
