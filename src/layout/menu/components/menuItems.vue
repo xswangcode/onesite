@@ -8,7 +8,7 @@
       <el-icon>
         <component :is="subItem.icon"></component>
       </el-icon>
-      <span>{{ subItem.title +" - "+ subItem.url }}</span>
+      <span>{{ subItem.title}}</span>
     </el-menu-item>
     <!--有多级菜单-->
     <el-sub-menu
@@ -20,7 +20,7 @@
         <el-icon>
           <component :is="subItem.icon"></component>
         </el-icon>
-        <span> {{ subItem.title +" - "+ subItem.url  }}</span>
+        <span> {{ subItem.title }}</span>
       </template>
       <!--递归组件，把遍历的值传回子组件，完成递归调用-->
       <menu-items :menuList="subItem.children"></menu-items>

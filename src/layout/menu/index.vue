@@ -3,7 +3,7 @@
     id="guide"
     class="menu"
     :style="{
-      width: store.getters.isCollapse == true ? '' : '200px',
+      width: store.getters.isCollapse == true ? '48px' : '200px',
       height: '100%',
       color: themeConfig.textColor,
     }"
