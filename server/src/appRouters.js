@@ -1,8 +1,8 @@
 const vvhan = require("./example/index") 
-const bili = require("./bili/index") 
+const video = require("./video/index") 
 routersList = [
     vvhan,
-    bili,
+    video,
 ]
 
 
