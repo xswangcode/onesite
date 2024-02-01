@@ -17,4 +17,11 @@ router.get("/hot_now/:page", async (ctx) => {
     ctx.response.body = list_now;
 })
 
+
+router.get("/video/:viewkey",async (ctx)=>{
+    let args =  ctx.params.viewkey
+    let info = await API.GetVideoInfoByViewKey(args)
+    ctx.response.body = info;
+})
+
 module.exports =  router;
