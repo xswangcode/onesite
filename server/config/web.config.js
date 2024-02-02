@@ -1,25 +1,48 @@
-const BASE_URL = "http://www.baidu.com"
-const HOT_NOW_URL = "https://api.vvhan.com/api/hotlist?type=huPu"
-const VIDEO_PAGE_URL  = ""
+const BASE_URL = ""
+const HOT_NOW_URL = ""
+const VIDEO_PAGE_URL = ""
 
 
-const getVideoPageUrl = (viewkey)=>{
-    return VIDEO_PAGE_URL+"?viewkey"+viewkey;
-}
-const getHotNowListUrl = (pageNumber)=>{
-    return HOT_NOW_URL+"?page"+pageNumber;
-}
-const getVideoPageHeaders = ()=>{
-    return {}
+const getVideoPageUrl = (viewkey) => {
+    return VIDEO_PAGE_URL + "?viewkey" + viewkey;
 }
 
-const test= ()=>{}
+const getIndexPageUrl = (page) => {
+    if (page)
+        return BASE_URL + "/index.php?page=" + page
+    return BASE_URL + "/index.php"
+}
+const getHotPageUrl = (page) => {
+    if (page)
+        return HOT_NOW_URL + "/index.php?page=" + page
+    return HOT_NOW_URL + "?page" + page;
+}
+
+
+const getVisitHeaders = () => {
+    return {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        "Sec-Ch-Ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "X-Amzn-Trace-Id": "Root=1-65bc55cf-3d5886b87de766b03dec3873"
+    }
+}
+
 module.exports = {
     BASE_URL: BASE_URL,
-    HOT_NOW_URL:HOT_NOW_URL,
-    VIDEO_PAGE_URL:VIDEO_PAGE_URL,
-    CND_POOL:[],
-    test:test,
-    getVideoPageUrl:getVideoPageUrl,
-    getHotNowListUrl:getHotNowListUrl
+    HOT_NOW_URL: HOT_NOW_URL,
+    VIDEO_PAGE_URL: VIDEO_PAGE_URL,
+    CND_POOL: [],
+    getHotPageUrl: getHotPageUrl,
+    getIndexPageUrl: getIndexPageUrl,
+    getVisitHeaders:getVisitHeaders
 }

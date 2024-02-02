@@ -1,6 +1,6 @@
 const axios = require("axios")
 const config = require("../config/config")
-
+const https = require('https');
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
@@ -24,7 +24,10 @@ axios.interceptors.response.use(function (response) {
 
 const instance = axios.create({
     baseURL: config.BASE_URL,
-    timeout: 1000,
+    timeout: 1500,
+    httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+    })
 });
 module.exports = instance
 

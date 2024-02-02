@@ -1,41 +1,48 @@
-const axios = require("../../utils/request") 
+const axios = require("../../utils/request")
 const cheerio = require('cheerio');
 const config = require("../../config/config")
+const common = require("./common")
 
 
-const loadListInfoFromHTML = ()=>{
-
-}
 /**
- * 
- * @returns 返回当前最热门的视频
+ * 1. 首页接口，并可以传page参数
+ * 2. 热门接口，可传page
+ * 3. 其他查询接口待开发
+ * 4. 本地star接口，
+ * 5. 本地下载接口
  */
-const hot_now = async (args)=>{
-    let response = axios({
+
+/**
+ * 首页接口，并可以传page参数
+ * @returns 返回首页的视频
+ */
+const index_page = async (args) => {
+    let response = await axios({
         method: 'get',
-        responseType: 'stream',
-        url: config.getHotNowListUrl(args.page)
+        url: config.getIndexPageUrl(args.page),
+        headers:config.getVisitHeaders()
     })
-    let list_hot_now = loadListInfoFromHTML(response.data)
+    let list_hot_now = common.loadListFromPageHTML(response.data)
     return list_hot_now
 }
 
-const loadVideoInfoFromHTML=(html)=>{
-    let result = {}
-    let $ = cheerio.load(html)
 
-    return result
+/**
+ * 热门接口，可以传page字段
+ * @param {} args 
+ * @returns 
+ */
+const hot_page = async (args) => {
+    let response = await axios({
+        method: 'get',
+        headers:config.getVisitHeaders(),
+        url: config.getHotPageUrl(args.page)
+    })
+    let list_hot_now = common.loadListFromPageHTML(response.data)
+    return list_hot_now
 }
-const getVideoInfoByViewKey = async (viewkey)=>{
-    let response = await axios({method:"get",url:config.getVideoPageUrl(viewkey),headers:config.getVideoPageHeaders()})
-    let page_html = response.data
-    // 从页面中解析信息
-    let info = loadVideoInfoFromHTML(page_html)
-    return info;
-}
-
 
 module.exports = {
-    HotNow:hot_now,
-    GetVideoInfoByViewKey:getVideoInfoByViewKey
+    Index_Page: index_page,
+    Hot_page: hot_page,
 }
