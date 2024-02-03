@@ -11,32 +11,59 @@
             </el-row>
             <el-row>
                 <el-scrollbar height="70vh">
-                    <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="4" class="content-item" v-for="(it, idx) in maxDataSize">
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="content-item" v-for="(it, idx) in table_config.data">
                         <div class="grid-content">
-                            <div> <el-image style=" height: 100%;"
-                                    src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
+                            <div style="display:none">
+                                    {{ it.id }}
+                            </div>
+                            <div> 
+                                <a :href="it.href">
+                                    <el-image style=" height: 100%;width:100%"
+                                    :src="it.imgurl" />
+                                </a>
                             </div>
                             <div class="multi-line2">
-                                文章名称-{{ it }}
+                                {{ it.title }}
                             </div>
                             <div>
+                                <el-row style="padding: 8px 0 8px 0;">
+                                     <!-- 作者名字 -->
+                                     <el-col :span="16" class="single-line-truncate"> 作者: {{ it.otherInfo["作者"] }} </el-col>
+                                    <el-col :span="4"> <el-link type="success" @click="love(it)">点赞</el-link></el-col>
+                                    <el-col :span="4"> <el-link type="danger" @click="star(it)">收藏</el-link></el-col>
+                                </el-row>
                                 <el-row>
                                     <!-- 点赞数量 -->
-                                    <el-col :span="8" style="vertical-align: text-top;display:inline">
+                                    <el-col :span="8" class="info" style="vertical-align: text-top;display:inline">
+                                        <div>
+                                            <el-icon style="top:2px">
+                                                <el-icon><CollectionTag /></el-icon>
+                                            </el-icon>
+                                            点赞
+                                            {{ it.otherInfo["点赞"] }}
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="8" class="info" >
                                         <div>
                                             <el-icon style="top:2px">
                                                 <Star />
                                             </el-icon>
-                                            {{ idx }}
+                                            收藏
+                                            {{ it.otherInfo["收藏"] }}
                                         </div>
                                     </el-col>
-                                    <!-- 作者名字 -->
-                                    <el-col :span="16" class="single-line-truncate"> 作者: 作者名字{{ it }} </el-col>
+                                    <el-col :span="8" class="info" >
+                                        <div>
+                                            <el-icon style="top:2px">
+                                                <el-icon><ChatLineRound /></el-icon>
+                                            </el-icon>
+                                            评论
+                                            {{ it.otherInfo["评论"] }}
+                                        </div>
+                                    </el-col>
+                                    
                                 </el-row>
-                                <el-row>
-                                    <el-col :span="8"> <el-link type="success" @click="love(it)">点赞</el-link></el-col>
-                                    <el-col :span="16"> <el-link type="danger" @click="star(it)">收藏</el-link></el-col>
-                                </el-row>
+                               
                             </div>
                         </div>
 
@@ -59,11 +86,10 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import { onMounted, reactive, ref , onActivated} from 'vue'
 import { useRouter } from 'vue-router'
-const route = useRouter()
-const showTableList = ref([])
-const maxDataSize = ref(24)
+const route = useRouter() 
 const table_config =reactive({
     isloading:true,
     data:[]
@@ -93,6 +119,7 @@ const handleSizeChange = (args) => {
 const handleCurrentChange = (args) => {
     pagination_config.currentPage = args 
     table_config.isloading = true
+    loadTableData()
 }
 
 const resizeWindows = () => {
@@ -111,9 +138,15 @@ const resizeWindows = () => {
     }
 }
 
-const loadTableData =  ()=>{
-    let data = []
-    table_config.data = data;
+const loadTableData =  async ()=>{
+    let data = await axios({
+        method:"get",
+        url:" http://192.168.0.44/video/index/"+pagination_config.currentPage,
+    }).then(res=>{
+        return res.data
+    })
+    table_config.data = data.data;
+    pagination_config.total = data.total
     table_config.isloading = false
 }
 
@@ -158,7 +191,7 @@ onMounted(() => {
 .content-item {
     padding: 10px;
     font-size: 15px;
-    font-family: serif;
+    font-family: Inter,Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,\5fae\8f6f\96c5\9ed1,Arial,sans-serif;
 }
 
 .grid-content {
@@ -186,5 +219,12 @@ onMounted(() => {
     -webkit-line-clamp: 2;
     /* 这里是超出几行省略 */
     overflow: hidden;
+}
+
+
+
+.info{
+    font-size: 13px;
+    font-weight: 500;
 }
 </style>;
