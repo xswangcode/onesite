@@ -39,8 +39,8 @@
                                             <el-icon style="top:2px">
                                                 <el-icon><CollectionTag /></el-icon>
                                             </el-icon>
-                                            点赞
-                                            {{ it.otherInfo["点赞"] }}
+                                            热度
+                                            {{ it.otherInfo["热度"] }}
                                         </div>
                                     </el-col>
                                     <el-col :span="8" class="info" >
@@ -57,8 +57,8 @@
                                             <el-icon style="top:2px">
                                                 <el-icon><ChatLineRound /></el-icon>
                                             </el-icon>
-                                            评论
-                                            {{ it.otherInfo["评论"] }}
+                                            留言
+                                            {{ it.otherInfo["留言"] }}
                                         </div>
                                     </el-col>
                                     
@@ -141,12 +141,12 @@ const resizeWindows = () => {
 const loadTableData =  async ()=>{
     let data = await axios({
         method:"get",
-        url:" http://192.168.0.44/video/index/"+pagination_config.currentPage,
+        url:" http://192.168.0.44:3000/video/index/"+pagination_config.currentPage,
     }).then(res=>{
         return res.data
     })
     table_config.data = data.data;
-    pagination_config.total = data.total
+    pagination_config.total = 1000
     table_config.isloading = false
 }
 

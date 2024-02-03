@@ -11,7 +11,7 @@ const parseItem = (itemhtml)=>{
     let otherInfo_dom = $(".info")
     let otherInfo = {}
     for(let i = 0; i < otherInfo_dom.length; i++){
-        let title  =  lodash.trim(otherInfo_dom[i].firstChild? otherInfo_dom[i].firstChild.data:'').substring(0,5)
+        let title  =  lodash.trim(lodash.trim(otherInfo_dom[i].firstChild? otherInfo_dom[i].firstChild.data:''),"").substring(0,5)
         let data =  lodash.trim(otherInfo_dom[i].next ? otherInfo_dom[i].next.data : '')
         otherInfo[title] = data
     };

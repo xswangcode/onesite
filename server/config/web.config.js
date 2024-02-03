@@ -9,12 +9,12 @@ const getVideoPageUrl = (viewkey) => {
 
 const getIndexPageUrl = (page) => {
     if (page)
-        return BASE_URL + "/index.php?page=" + page
+        return BASE_URL + "/v.php?page=" + page
     return BASE_URL + "/index.php"
 }
 const getHotPageUrl = (page) => {
     if (page)
-        return HOT_NOW_URL + "/index.php?page=" + page
+        return HOT_NOW_URL + "/v.php?page=" + page
     return HOT_NOW_URL + "?page" + page;
 }
 
