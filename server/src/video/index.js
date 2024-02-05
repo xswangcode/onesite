@@ -35,8 +35,8 @@ router.get("/index/:page", async (ctx) => {
 
 router.get("/show/:viewkey", async (ctx) => {
     let args = ctx.params.viewkey
-    let info = await API.GetVideoInfoByViewKey(args)
-    ctx.response.body = info;
+    let info = await API.Detail_Page(args)
+    ctx.response.body = new Date();
 })
 
 module.exports = router;

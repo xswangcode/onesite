@@ -1,4 +1,5 @@
 const axios = require("../../utils/request")
+const DecryptUtils = require("../../utils/DecryptUtils")
 const cheerio = require('cheerio');
 const config = require("../../config/config")
 const common = require("./common")
@@ -7,7 +8,7 @@ const common = require("./common")
 /**
  * 1. 首页接口，并可以传page参数
  * 2. 热门接口，可传page
- * 3. 其他查询接口待开发
+ * 3. 详情接口，传viewkey
  * 4. 本地star接口，
  * 5. 本地下载接口
  */
@@ -42,7 +43,23 @@ const hot_page = async (args) => {
     return list_hot_now
 }
 
+/**
+ * 详情接口
+ * @param {*} viewkey 
+ * @returns 
+ */
+const detail_page = async (viewkey) =>{
+    let response = await axios({
+        method: 'get',
+        headers:config.getVisitHeaders(),
+        url: config.getVideoPageUrl(viewkey)
+    })
+    let list_hot_now = common.parsePageInfo(response.data)
+    return response
+}
+
 module.exports = {
     Index_Page: index_page,
     Hot_page: hot_page,
+    Detail_Page:detail_page
 }

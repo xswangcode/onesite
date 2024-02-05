@@ -1,4 +1,5 @@
 const axios = require("../../utils/request") 
+const config = require("../../config/config")
 
 
 
@@ -13,6 +14,14 @@ const helloWorld = ()=>{
     })
 }
 
+const baidu_test = async ()=>{
+   return await axios({
+        method: 'get',
+        url: "http://httpbin.org/headers"
+    })
+}
+
 module.exports = {
-    helloWorld:helloWorld
+    helloWorld:helloWorld,
+    baidu_test:baidu_test
 }

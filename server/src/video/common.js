@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const lodash = require('lodash');
 const axios = require("../../utils/request");
 
+//region 解析列表页
 const parseItem = (itemhtml)=>{ 
     let $= cheerio.load(itemhtml)
     let href = $("a").attr('href')
@@ -37,7 +38,19 @@ const loadListFromPageHTML = (html)=>{
     }
     return li
 }
+//endregion
+
+//region 解析视频详情页
+const parsePageInfo = (detailHTML)=>{
+    let $= cheerio.load(detailHTML)
+    let result = {}
+    let player = $("#player_one")
+    result["video_link"] = player.attr("src")
+    return result
+}
+//endregion
 
 module.exports = {
-    loadListFromPageHTML:loadListFromPageHTML
+    loadListFromPageHTML:loadListFromPageHTML,
+    parsePageInfo:parsePageInfo
 }

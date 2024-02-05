@@ -13,6 +13,13 @@ router.get("/", async (ctx,next) => {
     ctx.response.body = worlds;
 })
 
+router.get("/baidu", async (ctx,next) => {
+    let worlds =  await API.baidu_test()
+    ctx.response.type = 'text/html';
+    // 设置response的内容:
+    ctx.response.body = worlds;
+})
+
 
 
 module.exports =  router;

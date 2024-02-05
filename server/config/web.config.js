@@ -4,7 +4,7 @@ const VIDEO_PAGE_URL = ""
 
 
 const getVideoPageUrl = (viewkey) => {
-    return VIDEO_PAGE_URL + "?viewkey" + viewkey;
+    return VIDEO_PAGE_URL + "?viewkey=" + viewkey;
 }
 
 const getIndexPageUrl = (page) => {
@@ -44,5 +44,6 @@ module.exports = {
     CND_POOL: [],
     getHotPageUrl: getHotPageUrl,
     getIndexPageUrl: getIndexPageUrl,
-    getVisitHeaders:getVisitHeaders
+    getVisitHeaders:getVisitHeaders,
+    getVideoPageUrl:getVideoPageUrl,
 }
