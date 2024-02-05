@@ -1,6 +1,6 @@
-const BASE_URL = ""
-const HOT_NOW_URL = ""
-const VIDEO_PAGE_URL = ""
+const BASE_URL = "http://f0119.workarea5.live/"
+const HOT_NOW_URL = "http://f0119.workarea5.live/"
+const VIDEO_PAGE_URL = BASE_URL + "view_video.php"
 
 
 const getVideoPageUrl = (viewkey) => {
