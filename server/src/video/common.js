@@ -1,6 +1,7 @@
 const cheerio = require('cheerio'); 
 const lodash = require('lodash');
 const axios = require("../../utils/request");
+const DecryptUtils = require("../../utils/DecryptUtils")
 
 //region 解析列表页
 const parseItem = (itemhtml)=>{ 
@@ -45,7 +46,13 @@ const parsePageInfo = (detailHTML)=>{
     let $= cheerio.load(detailHTML)
     let result = {}
     let player = $("#player_one")
-    result["video_link"] = player.attr("src")
+    let sourceHTML = player.html()
+    let begin  = sourceHTML.indexOf("strencode2(") + "strencode2(".length
+    let end = sourceHTML.indexOf("));") 
+    let link = sourceHTML.substring(begin  ,end)
+    let text = DecryptUtils.strencode2(link)
+    let sourceTag = cheerio.load(text)
+    result["link"] = sourceTag._root.children[0].children[1].children[1].attribs["src"]
     return result
 }
 //endregion

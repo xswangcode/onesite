@@ -54,8 +54,8 @@ const detail_page = async (viewkey) =>{
         headers:config.getVisitHeaders(),
         url: config.getVideoPageUrl(viewkey)
     })
-    let list_hot_now = common.parsePageInfo(response.data)
-    return response
+    let info = common.parsePageInfo(response.data)
+    return info
 }
 
 module.exports = {
