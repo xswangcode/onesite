@@ -21,7 +21,7 @@ const index_page = async (args) => {
     let response = await axios({
         method: 'get',
         url: config.getIndexPageUrl(args.page),
-        headers:config.getVisitHeaders()
+        headers: config.getVisitHeaders()
     })
     let list_hot_now = common.loadListFromPageHTML(response.data)
     return list_hot_now
@@ -30,13 +30,13 @@ const index_page = async (args) => {
 
 /**
  * 热门接口，可以传page字段
- * @param {} args 
- * @returns 
+ * @param {} args
+ * @returns
  */
 const hot_page = async (args) => {
     let response = await axios({
         method: 'get',
-        headers:config.getVisitHeaders(),
+        headers: config.getVisitHeaders(),
         url: config.getHotPageUrl(args.page)
     })
     let list_hot_now = common.loadListFromPageHTML(response.data)
@@ -45,21 +45,36 @@ const hot_page = async (args) => {
 
 /**
  * 详情接口
- * @param {*} viewkey 
- * @returns 
+ * @param {*} viewkey
+ * @returns
  */
-const detail_page = async (viewkey) =>{
+const detail_page = async (viewkey) => {
     let response = await axios({
         method: 'get',
-        headers:config.getVisitHeaders(),
+        headers: config.getVisitHeaders(),
         url: config.getVideoPageUrl(viewkey)
     })
     let info = common.parsePageInfo(response.data)
     return info
 }
 
+
+const down_video = async (link, file_name) => {
+    let response = await  axios({
+        method:"get",
+        url:link,
+        headers:config.getVisitHeaders(),
+    })
+    let detail = common.parsePageInfo(response.data)
+    if(!detail)
+        return "error:detail is null";
+    let path_file = await common.downloadFile(detail["link"], config.FILE_SAVE_PATH, file_name+".mp4")
+    return {path:path_file}
+}
+
 module.exports = {
     Index_Page: index_page,
     Hot_page: hot_page,
-    Detail_Page:detail_page
+    Detail_Page: detail_page,
+    Down_Video:down_video
 }

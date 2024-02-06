@@ -1,3 +1,3 @@
 module.exports = {
-    TOKEN:"fagiwbefiuawbvfle",
+    FILE_SAVE_PATH:"E:\\save",
 }

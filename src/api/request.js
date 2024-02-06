@@ -1,10 +1,12 @@
+import SERVER_BASE_API_URL from "../../config"
+
 import axios from "axios";
 import {
   ElMessage
 } from "element-plus";
 
-
 const service = axios.create({
+  baseURL: SERVER_BASE_API_URL,
   timeout: 5000,
 });
 

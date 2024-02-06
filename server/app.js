@@ -1,13 +1,14 @@
 const Koa = require('koa');
 const AppRouters = require("./src/appRouters")
 const CONFIG = require("./config/config")
-const cors = require('koa2-cors'); 
-
+const cors = require('koa2-cors');
+const { koaBody } = require('koa-body');
 
 
 
 const app = new Koa();
-app.use(cors()); 
+app.use(cors());
+app.use(koaBody());
 
 AppRouters.routersList.forEach(router => {
   app.use(router.routes())

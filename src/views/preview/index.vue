@@ -31,6 +31,7 @@
                                      <el-col :span="16" class="single-line-truncate"> 作者: {{ it.otherInfo["作者"] }} </el-col>
                                     <el-col :span="4"> <el-link type="success" @click="love(it)">点赞</el-link></el-col>
                                     <el-col :span="4"> <el-link type="danger" @click="star(it)">收藏</el-link></el-col>
+                                    <el-col :span="4"> <el-link type="warning" @click="down(it.href,it.title)">下载</el-link></el-col>
                                 </el-row>
                                 <el-row>
                                     <!-- 点赞数量 -->
@@ -89,6 +90,7 @@
 import axios from 'axios';
 import { onMounted, reactive, ref , onActivated} from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from "element-plus";
 const route = useRouter() 
 const table_config =reactive({
     isloading:true,
@@ -101,6 +103,13 @@ const love = (args) => {
 }
 const star = (args) => {
     alert("收藏了" + args)
+}
+const down = async (link,name)=>{
+  let response = await axios.post("/video/down",{link:link,filename:name}).then(res=>{
+    ElMessage.success(res);
+  }).catch(err=>{
+    ElMessage.error(err);
+  })
 }
 // 分页组件属性和事件
 const pagination_config = reactive({

@@ -2,14 +2,18 @@ const cheerio = require('cheerio');
 const lodash = require('lodash');
 const axios = require("../../utils/request");
 const DecryptUtils = require("../../utils/DecryptUtils")
+const config = require("../../config/config")
+const download = require("download")
+const fs = require("fs");
+const path = require("path");
 
 //region 解析列表页
 const parseItem = (itemhtml)=>{ 
     let $= cheerio.load(itemhtml)
     let href = $("a").attr('href')
-    let imgurl = $(".img-responsive").attr("src")
+    let imgurl = "fvwauyiroeibviwyovbfi"
     let id = parseInt(imgurl.split("/")[imgurl.split("/").length-1].split(".")[0])
-    let title = $(".video-title").text()
+    let title = "ifgbawiuyfvegaiuwvfilwefbcv wegfawgawg2fq2fq234gf"
     let otherInfo_dom = $(".info")
     let otherInfo = {}
     for(let i = 0; i < otherInfo_dom.length; i++){
@@ -45,19 +49,56 @@ const loadListFromPageHTML = (html)=>{
 const parsePageInfo = (detailHTML)=>{
     let $= cheerio.load(detailHTML)
     let result = {}
-    let player = $("#player_one")
-    let sourceHTML = player.html()
-    let begin  = sourceHTML.indexOf("strencode2(") + "strencode2(".length
-    let end = sourceHTML.indexOf("));") 
-    let link = sourceHTML.substring(begin  ,end)
-    let text = DecryptUtils.strencode2(link)
-    let sourceTag = cheerio.load(text)
-    result["link"] = sourceTag._root.children[0].children[1].children[1].attribs["src"]
+    try{
+        let player = $("#player_one")
+        let sourceHTML = player.html().replaceAll("\n","").replaceAll("\t","")
+        let beginSpan = config.SOURCE_BEGIN_SPAN
+        let endSpan = config.SOURCE_END_SPAN
+        let begin  = sourceHTML.indexOf(beginSpan) + beginSpan.length
+        let end = sourceHTML.indexOf(endSpan)
+        let link = sourceHTML.substring(begin  ,end)
+        let text = DecryptUtils.strencode2(link)
+        let sourceTag = cheerio.load(text)
+        result["link"] = sourceTag("source")[0].attribs['src']
+    }catch (err){
+        console.log("===========解析视频链接失败 - begin ==============")
+        console.log(err)
+        console.log("===========解析视频链接失败 -  end  ==============")
+        return null;
+    }
+
     return result
+}
+
+
+/**
+ * 下载文件到指定位置
+ * @param link 网络url
+ * @param save_path 本地存储位置
+ * @param fileName 文件名
+ * @returns {Promise<string>}
+ */
+const downloadFile = async (link, save_path, fileName)=>{
+    try {
+        // 确保文件夹存在
+        if (!fs.existsSync(save_path)) {
+            fs.mkdirSync(save_path);
+        }
+        const res = await download(link);
+        let path_file = path.join(save_path,fileName)
+        fs.writeFileSync(path_file, res, {flag:'w'});
+        return Promise.resolve(path_file)
+    }catch (err){
+        console.log("==============存储文件失败 - begin ================")
+        console.log(err)
+        console.log("==============存储文件失败 - end   ================")
+        return Promise.reject("存储文件失败")
+    }
 }
 //endregion
 
 module.exports = {
     loadListFromPageHTML:loadListFromPageHTML,
-    parsePageInfo:parsePageInfo
+    parsePageInfo:parsePageInfo,
+    downloadFile:downloadFile,
 }

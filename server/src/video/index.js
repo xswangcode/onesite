@@ -38,5 +38,10 @@ router.get("/show/:viewkey", async (ctx) => {
     let info = await API.Detail_Page(args)
     ctx.response.body = info;
 })
+router.post("/down", async (ctx) => {
+    let args = ctx.request.body
+    let info = await API.Down_Video(args.link,args.name)
+    ctx.response.body = info
+})
 
 module.exports = router;

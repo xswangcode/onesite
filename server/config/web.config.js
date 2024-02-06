@@ -1,7 +1,8 @@
 const BASE_URL = "http://f0119.workarea5.live/"
 const HOT_NOW_URL = "http://f0119.workarea5.live/"
 const VIDEO_PAGE_URL = BASE_URL + "view_video.php"
-
+const SOURCE_BEGIN_SPAN = "strencode2("
+const SOURCE_END_SPAN = "));"
 
 const getVideoPageUrl = (viewkey) => {
     return VIDEO_PAGE_URL + "?viewkey=" + viewkey;
@@ -46,4 +47,7 @@ module.exports = {
     getIndexPageUrl: getIndexPageUrl,
     getVisitHeaders:getVisitHeaders,
     getVideoPageUrl:getVideoPageUrl,
+    SOURCE_BEGIN_SPAN:SOURCE_BEGIN_SPAN,
+    SOURCE_END_SPAN:SOURCE_END_SPAN,
+
 }
