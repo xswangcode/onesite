@@ -20,9 +20,10 @@ const common = require("./common")
 const index_page = async (args) => {
     let response = await axios({
         method: 'get',
-        url: config.getIndexPageUrl(args.page),
+        url: config.getIndexPageUrl(args),
         headers: config.getVisitHeaders()
     })
+    console.log(config.getIndexPageUrl(args))
     let list_hot_now = common.loadListFromPageHTML(response.data)
     return list_hot_now
 }

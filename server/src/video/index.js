@@ -23,7 +23,7 @@ router.get("/hot_now/:page", async (ctx) => {
  * index页面
  */
 router.get("/index/:page", async (ctx) => {
-    const args = { page: ctx.params.page }
+    const args = { page: ctx.params.page, urlarg:ctx.query.urlarg }
     let list_now = await API.Index_Page(args)
     ctx.response.type = 'json';
     ctx.response.body = {

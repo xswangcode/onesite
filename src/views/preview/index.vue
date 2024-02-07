@@ -1,6 +1,16 @@
 <template>
     <div>
         <h2>表格布局</h2>
+        <div>
+            <el-select v-model="selectValue" @change="loadTableData">
+                <el-option
+                    v-for="item in selectoptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                />
+            </el-select>
+        </div>
         <div v-loading="table_config.isloading">
             <el-row>
                 <el-col :span="7"></el-col>
@@ -16,9 +26,9 @@
                             <div style="display:none">
                                     {{ it.id }}
                             </div>
-                            <div> 
-                                <a :href="it.href">
-                                    <el-image style=" height: 100%;width:100%"
+                            <div > 
+                                <a :href="it.href" target="_blank">
+                                    <el-image style="width: 400px;height: 255px;"
                                     :src="it.imgurl" />
                                 </a>
                             </div>
@@ -28,7 +38,7 @@
                             <div>
                                 <el-row style="padding: 8px 0 8px 0;">
                                      <!-- 作者名字 -->
-                                     <el-col :span="16" class="single-line-truncate"> 作者: {{ it.otherInfo["作者"] }} </el-col>
+                                     <el-col :span="12" class="single-line-truncate"> 作者: {{ it.otherInfo["作者"] }} </el-col>
                                     <el-col :span="4"> <el-link type="success" @click="love(it)">点赞</el-link></el-col>
                                     <el-col :span="4"> <el-link type="danger" @click="star(it)">收藏</el-link></el-col>
                                     <el-col :span="4"> <el-link type="warning" @click="down(it.href,it.title)">下载</el-link></el-col>
@@ -87,7 +97,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import {downApi,showIndexList} from '../../api/modules/index';
 import { onMounted, reactive, ref , onActivated} from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from "element-plus";
@@ -96,6 +106,49 @@ const table_config =reactive({
     isloading:true,
     data:[]
 })
+const selectoptions = [{
+    value: 'category=ori&viewtype=basic',
+    label: '91原创',
+  },{
+    label: '当前最热',
+    value: 'category=hot&viewtype=basic',
+  },{
+    label: '本月最热',
+    value: 'category=top&viewtype=basic',
+  },{
+    label: '非付费',
+    value: 'category=nonpaid&viewtype=basic',
+  },{
+    label: '10分钟以上',
+    value: 'category=long&viewtype=basic',
+  },{
+    label: '20分钟以上',
+    value: 'category=longer&viewtype=basic',
+  },{
+    label: '本月收藏',
+    value: 'category=tf&viewtype=basic',
+  },{
+    label: '本月加精',
+    value: 'category=rf&viewtype=basic',
+  },{
+    label: '高清',
+    value: 'category=hd&viewtype=basic',
+  },{
+    label: '每月最热',
+    value: 'category=top&m=-1&viewtype=basic',
+  },{
+    label: '本月收藏',
+    value: 'category=tf&viewtype=basic',
+  },{
+    label: '本月讨论',
+    value: 'category=md&viewtype=basic',
+  },{
+    label: '收藏最多',
+    value: 'category=mf&viewtype=basic',
+  },
+
+]
+const selectValue = ref('category=hot&viewtype=basic')
 
 
 const love = (args) => {
@@ -105,8 +158,8 @@ const star = (args) => {
     alert("收藏了" + args)
 }
 const down = async (link,name)=>{
-  let response = await axios.post("/video/down",{link:link,filename:name}).then(res=>{
-    ElMessage.success(res);
+  let response = await downApi(link,name).then(res=>{
+    ElMessage.success(name+'下载完成！文件路径：'+res);
   }).catch(err=>{
     ElMessage.error(err);
   })
@@ -148,13 +201,8 @@ const resizeWindows = () => {
 }
 
 const loadTableData =  async ()=>{
-    let data = await axios({
-        method:"get",
-        url:" http://192.168.0.44:3000/video/index/"+pagination_config.currentPage,
-    }).then(res=>{
-        return res.data
-    })
-    table_config.data = data.data;
+    let data = await showIndexList(pagination_config.currentPage,selectValue.value)
+    table_config.data = data.data.data;
     pagination_config.total = 1000
     table_config.isloading = false
 }
@@ -207,7 +255,8 @@ onMounted(() => {
     border-radius: 4px;
     padding: 10px 10px 5px 10px;
     padding-bottom: 20px;
-    height: auto;
+    height: 350px;
+    width: 412px;
     background-color: #e3e3e3;
     overflow: hidden;
 }

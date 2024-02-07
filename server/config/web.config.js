@@ -8,15 +8,13 @@ const getVideoPageUrl = (viewkey) => {
     return VIDEO_PAGE_URL + "?viewkey=" + viewkey;
 }
 
-const getIndexPageUrl = (page) => {
-    if (page)
-        return BASE_URL + "/v.php?page=" + page
-    return BASE_URL + "/index.php"
-}
-const getHotPageUrl = (page) => {
-    if (page)
-        return HOT_NOW_URL + "/v.php?page=" + page
-    return HOT_NOW_URL + "?page" + page;
+const getIndexPageUrl = (args) => {
+    let params = "?"
+    if(args.urlarg)
+        params  += args.urlarg+"&"
+    if (args.page)
+        return BASE_URL + "/v.php"+params+"page=" + args.page
+    return BASE_URL + "/index.php"+params
 }
 
 
@@ -43,7 +41,6 @@ module.exports = {
     HOT_NOW_URL: HOT_NOW_URL,
     VIDEO_PAGE_URL: VIDEO_PAGE_URL,
     CND_POOL: [],
-    getHotPageUrl: getHotPageUrl,
     getIndexPageUrl: getIndexPageUrl,
     getVisitHeaders:getVisitHeaders,
     getVideoPageUrl:getVideoPageUrl,

@@ -11,13 +11,14 @@ const path = require("path");
 const parseItem = (itemhtml)=>{ 
     let $= cheerio.load(itemhtml)
     let href = $("a").attr('href')
-    let imgurl = "fvwauyiroeibviwyovbfi"
+    let imgurl = $(".img-responsive").attr("src")
     let id = parseInt(imgurl.split("/")[imgurl.split("/").length-1].split(".")[0])
-    let title = "ifgbawiuyfvegaiuwvfilwefbcv wegfawgawg2fq2fq234gf"
+    let title = $(".video-title").text()
     let otherInfo_dom = $(".info")
     let otherInfo = {}
     for(let i = 0; i < otherInfo_dom.length; i++){
         let title  =  lodash.trim(lodash.trim(otherInfo_dom[i].firstChild? otherInfo_dom[i].firstChild.data:''),"").substring(0,5)
+        title  = lodash.trim(title,":")
         let data =  lodash.trim(otherInfo_dom[i].next ? otherInfo_dom[i].next.data : '')
         otherInfo[title] = data
     };
@@ -84,8 +85,10 @@ const downloadFile = async (link, save_path, fileName)=>{
         if (!fs.existsSync(save_path)) {
             fs.mkdirSync(save_path);
         }
-        const res = await download(link);
         let path_file = path.join(save_path,fileName)
+        console.log("正在下载"+fileName)
+        const res = await download(link);
+        console.log("下载完成"+fileName+"\t savepath:",path_file)
         fs.writeFileSync(path_file, res, {flag:'w'});
         return Promise.resolve(path_file)
     }catch (err){
