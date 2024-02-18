@@ -3,6 +3,10 @@ chcp 65001
 
 if "%1" == "start" (
     pm2 start
+) else if "%1" == "servernpm" (
+      cd ./server && npm install  --prefix ..
+) else if "%1" == "webnpm" (
+      npm install
 ) else if "%1" == "build" (
     npm run build
 ) else if "%1" == "restart" (
