@@ -1,7 +1,7 @@
 //src/api/user/index.js
 
 import service from "../request.js";
-import SERVER_BASE_API_URL from "../../../config.js"
+import {SERVER_BASE_API_URL} from "../../../config.js"
 
 
 export function LoginInfo(query) {

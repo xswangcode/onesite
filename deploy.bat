@@ -2,7 +2,7 @@ chcp 65001
 @echo off
 
 if "%1" == "start" (
-    pm2 start
+    pm2 start ./ecosystem.config.js
 ) else if "%1" == "servernpm" (
     cd ./server && npm install  --prefix .. && npm install pm2@latest -g && cd ..
 ) else if "%1" == "install" (
@@ -14,7 +14,7 @@ if "%1" == "start" (
 ) else if "%1" == "restart" (
     npm run build
     pm2 delete all
-    pm2 start
+    pm2 start ./ecosystem.config.js
 ) else if "%1" == "reload" (
     pm2 reload all
 ) else if "%1" == "stop" (
