@@ -26,6 +26,9 @@ export default defineConfig({
       ext: ".gz",
     }),
   ],
+  server: {
+    host: '0.0.0.0'
+  },
   build: {
     terserOptions: {
       compress: {
