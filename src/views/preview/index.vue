@@ -108,7 +108,7 @@
 </template>
 
 <script setup>
-import {downApi, showIndexList} from '../../api/modules/index';
+import {downApi, showIndexList, loadVideoLink} from '../../api/modules/index';
 import {onMounted, reactive, ref, onActivated} from 'vue'
 import {useRouter} from 'vue-router'
 import {ElMessage} from "element-plus";
@@ -230,11 +230,11 @@ onMounted(() => {
   }
 })
 
-const preview_video = (href) => {
-  let video_href = "";
+const preview_video = async (href) => {
+  let response = await loadVideoLink(href);
   route.push({
     "name": "video-preview",
-    "params": { href: video_href },
+    "params": { href: response.data },
   });
 }
 

@@ -111,3 +111,12 @@ export function downApi(link,name) {
     }
   });
 }
+export function loadVideoLink(link) {
+  return service({
+    method: "post",
+    url: SERVER_BASE_API_URL+"/video/loadVideoLink",
+    data:{
+      link:link,
+    }
+  });
+}

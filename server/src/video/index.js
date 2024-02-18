@@ -43,5 +43,13 @@ router.post("/down", async (ctx) => {
     let info = await API.Down_Video(args.link,args.name)
     ctx.response.body = info
 })
-
+router.post("/loadVideoLink", async (ctx) => {
+    if(!ctx.request.body.link)
+        ctx.response.body = "链接不存在";
+    else{
+        let args = ctx.request.body.link
+        let link = await API.Load_Video_Link(args)
+        ctx.response.body = link;
+    }
+})
 module.exports = router;

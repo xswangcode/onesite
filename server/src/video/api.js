@@ -59,6 +59,18 @@ const detail_page = async (viewkey) => {
     return info
 }
 
+const parse_video_link = async (link)=>{
+    let response = await  axios({
+        method:"get",
+        url:link,
+        headers:config.getVisitHeaders(),
+    })
+    let detail = common.parsePageInfo(response.data)
+    if(!detail)
+        return "error:detail is null";
+    return detail["link"]
+}
+
 
 const down_video = async (link, file_name) => {
     let response = await  axios({
@@ -77,5 +89,6 @@ module.exports = {
     Index_Page: index_page,
     Hot_page: hot_page,
     Detail_Page: detail_page,
-    Down_Video:down_video
+    Down_Video:down_video,
+    Load_Video_Link:parse_video_link,
 }
