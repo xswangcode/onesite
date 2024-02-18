@@ -16,4 +16,7 @@ ecosystem.config.js 这个文件下可以修改前后端的端口
 
 启动
 deploy start
+
+查看
+浏览器打开127.0.0.1:3000浏览
 ```
