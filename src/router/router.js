@@ -498,6 +498,14 @@ const routes = [{
         meta: {
           name: "flex-布局",
         },
+      },
+      {
+        path: "/video-preview",
+        name: "video-preview",
+        component:  () => import("../views/preview/OnlinePreview.vue"),
+        meta: {
+          name: "在线预览",
+        },
       }
     ]
   },

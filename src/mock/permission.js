@@ -318,6 +318,10 @@ let menuList = [
         url: "/flex-layout",
         title: "flex布局",
         icon: "Menu",
+      },  {
+        url: "/video-preview",
+        title: "在线预览",
+        icon: "VideoCameraFilled",
       }
     ],
   },
