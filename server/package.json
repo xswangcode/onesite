@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "后端server的配置文件",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "koa-router": "^12.0.1",
+    "cheerio": "^1.0.0-rc.12",
+    "lodash": "^4.17.21",
+    "download": "^8.0.0",
+    "axios": "^0.27.2"
+  },
+  "author": "xswang",
+  "license": "ISC"
+}
