@@ -11,7 +11,10 @@
     "cheerio": "^1.0.0-rc.12",
     "lodash": "^4.17.21",
     "download": "^8.0.0",
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "koa": "^2.15.0",
+    "koa-body": "^6.0.1",
+    "koa2-cors": "^2.0.6"
   },
   "author": "xswang",
   "license": "ISC"
