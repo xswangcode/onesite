@@ -28,7 +28,7 @@
                 {{ it.id }}
               </div>
               <div>
-                <a @click="preview_video(it.href)">
+                <a @click="preview_video(it.href, it.imgurl)">
                   <el-image style="width: 400px;height: 255px;"
                             :src="it.imgurl"/>
                 </a>
@@ -230,11 +230,11 @@ onMounted(() => {
   }
 })
 
-const preview_video = async (href) => {
+const preview_video = async (href, img) => {
   let response = await loadVideoLink(href);
   route.push({
     "name": "video-preview",
-    "params": { href: response.data },
+    "params": { href: response.data, img: img },
   });
 }
 

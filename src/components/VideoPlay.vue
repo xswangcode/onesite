@@ -13,15 +13,17 @@
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
+import video_zhCN from 'video.js/dist/lang/zh-CN.json'
 const props = defineProps({
   videoSrc: String,
+  previewImgSrc: String,
   autoPlay: Boolean,
 })
 
 const m3u8_video = ref()
 let player
 const initPlay = async () => {
-  videojs.addLanguage('zh-CN', zh)
+  videojs.addLanguage('zh-CN', video_zhCN)
   await nextTick()
   const options = {
     muted: true,
@@ -30,6 +32,8 @@ const initPlay = async () => {
     loop: true,
     language: 'zh-CN',
     techOrder: ['html5'],
+    playbackRates: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5],
+    poster: props.previewImgSrc
   }
   player = videojs(m3u8_video.value, options, () => {
     videojs.log('播放器已经准备好了!')
@@ -70,6 +74,7 @@ onBeforeUnmount(() => {
   .video-js {
     height: 100%;
     width: 100%;
+    min-height: 800px;
     object-fit: fill;
   }
 }
