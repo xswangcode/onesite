@@ -24,11 +24,11 @@ AppRouters.routersList.forEach(router => {
 console.log("CONFIG",CONFIG);
 console.log("process.env.PORT",process.env.PORT)
 
-const SERVER_PORT = process.env.PORT || 3000
+const SERVER_PORT = process.env.PORT || 80
 app.listen(SERVER_PORT, () => {
   console.log("\nVisit app listening on url :\n")
   CONFIG.ipv4.map(v=>{
-    console.log(`\t\thttp://${v}:${SERVER_PORT}  `)
+    console.log(`\t\thttp://${v}:${SERVER_PORT}/index.html  `)
   })
   console.log("\n\tStart App From koa");
 });
