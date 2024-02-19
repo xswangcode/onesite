@@ -17,9 +17,7 @@ import VMdEditor from "@kangc/v-md-editor";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
 import "@kangc/v-md-editor/lib/theme/style/vuepress.css";
-import * as Config from "../config"
 
-console.log("Config,",Config)
 VMdEditor.use(vuepressTheme);
 
 const app = createApp(App);

@@ -30,6 +30,7 @@ export default defineConfig({
     host: '0.0.0.0'
   },
   build: {
+    outDir:"./server/public/",
     terserOptions: {
       compress: {
         drop_console: true,

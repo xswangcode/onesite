@@ -1,7 +1,6 @@
 //src/api/user/index.js
 
 import service from "../request.js";
-import {SERVER_BASE_API_URL} from "../../../config.js"
 
 
 export function LoginInfo(query) {
@@ -82,7 +81,7 @@ export function showIndexList(pageIdx,urlarg) {
     pageIdx = 1
   return service({
     method: "get",
-    url: SERVER_BASE_API_URL+"/video/index/"+pageIdx+"?urlarg="+encodeURIComponent(urlarg),
+    url: "/video/index/"+pageIdx+"?urlarg="+encodeURIComponent(urlarg),
   });
 }
 export function showHotList(pageIdx) {
@@ -90,21 +89,21 @@ export function showHotList(pageIdx) {
     pageIdx = 1
   return service({
     method: "get",
-    url: SERVER_BASE_API_URL+"/video/hot_now/"+pageIdx,
+    url: "/video/hot_now/"+pageIdx,
   });
 }
 
 export function showDetailPage(key) {
   return service({
     method: "get",
-    url: SERVER_BASE_API_URL+"/video/show/"+key,
+    url: "/video/show/"+key,
   });
 }
 
 export function downApi(link,name) {
   return service({
     method: "post",
-    url: SERVER_BASE_API_URL+"/video/down/",
+    url: "/video/down/",
     data:{
       link:link,
       name:name
@@ -114,7 +113,7 @@ export function downApi(link,name) {
 export function loadVideoLink(link) {
   return service({
     method: "post",
-    url: SERVER_BASE_API_URL+"/video/loadVideoLink",
+    url: "/video/loadVideoLink",
     data:{
       link:link,
     }
