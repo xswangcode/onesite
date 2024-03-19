@@ -33,12 +33,9 @@ const data = reactive({
 
 const downloadFile = async (url) => {
   try {
-    let blob = await axios.get(url, {
-      responseType: 'blob',
-    });
     //这里的data应该是拿到了一个Blob的流
     const $link = document.createElement('a');
-    $link.href = URL.createObjectURL(blob);
+    $link.href = new URL(url);
     $link.download = data.title + ".mp4";
     $link.click();
     $link.remove();
