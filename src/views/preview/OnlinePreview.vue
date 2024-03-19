@@ -34,15 +34,15 @@ const data = reactive({
 const downloadFile = async (url) => {
   try{
     let filename = data.title + ".mp4";
-    const a = document.createElement('a')
-    document.body.appendChild(a)
-    a.style.display = 'none'
-    const url_l = new window.URL(url)
-    a.href = url_l
-    a.download = filename
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url_l)
+    const el = document.createElement('a');
+    el.style.display = 'none';
+    el.setAttribute('target', '_blank');
+    el.setAttribute('download', filename);
+    el.href = url;
+    document.body.appendChild(el);
+    el.click();
+    document.body.removeChild(el);
+
   }catch (e){
     alert(e.message)
 
