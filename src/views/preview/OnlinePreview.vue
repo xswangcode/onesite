@@ -33,9 +33,9 @@ const data = reactive({
 
 const downloadFile = async (url) => {
   try {
-    // let data = await axios.get(url, {
-    //   responseType: 'blob',
-    // });
+    let data = await axios.get(url, {
+      responseType: 'blob',
+    });
     //这里的data应该是拿到了一个Blob的流
     const $link = document.createElement('a');
     $link.href = URL.createObjectURL(data);
@@ -50,7 +50,7 @@ const downloadFile = async (url) => {
 </script>
 <style lang="scss" scoped>
 .myVideo {
-  width: 50vw;
+  width: 90vw;
   height: auto;
 }
 </style>
