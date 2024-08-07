@@ -1,3 +1,4 @@
+// 全局导出配置
 user_config = require("./user.config")
 web_config = require("./web.config")
 const os = require('os');
@@ -26,5 +27,6 @@ let ipv4 = getIPv4();
 module.exports = {
   ...user_config,
   ...web_config,
+  server_port:5123,
   ipv4
 }

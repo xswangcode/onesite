@@ -3,13 +3,9 @@
     <h2>表格布局</h2>
     <div>
       <el-select v-model="selectValue" @change="loadTableData">
-        <el-option
-            v-for="item in selectoptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-        />
+        <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
+      <el-switch v-model="showPic"></el-switch>
     </div>
     <div v-loading="table_config.isloading">
       <el-row>
@@ -22,16 +18,13 @@
       <el-row>
         <el-scrollbar height="70vh">
           <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="content-item"
-                  v-for="(it, idx) in table_config.data">
+            v-for="(it, idx) in table_config.data">
             <div class="grid-content">
               <div style="display:none">
                 {{ it.id }}
               </div>
-              <div>
-                <a @click="preview_video(it.href, it.imgurl, it.title)">
-                  <el-image style="width: 400px;height: 255px;"
-                            :src="it.imgurl"/>
-                </a>
+              <div style="width: 400px;height: 255px;text-align:center" @click="preview_video(it.href, it.imgurl, it.title)">
+                <el-image style="max-width: 100%;max-height: 100%;" :src="it.imgurl" v-show="showPic" />
               </div>
               <div class="multi-line2">
                 {{ it.title }}
@@ -47,7 +40,7 @@
                     <el-link type="danger" @click="star(it)">收藏</el-link>
                   </el-col>
                   <el-col :span="4">
-                    <el-link type="warning" @click="down(it.href,it.title)">下载</el-link>
+                    <el-link type="warning" @click="down(it.href, it.title)">下载</el-link>
                   </el-col>
                 </el-row>
                 <el-row>
@@ -56,7 +49,7 @@
                     <div>
                       <el-icon style="top:2px">
                         <el-icon>
-                          <CollectionTag/>
+                          <CollectionTag />
                         </el-icon>
                       </el-icon>
                       热度
@@ -66,7 +59,7 @@
                   <el-col :span="8" class="info">
                     <div>
                       <el-icon style="top:2px">
-                        <Star/>
+                        <Star />
                       </el-icon>
                       收藏
                       {{ it.otherInfo["收藏"] }}
@@ -76,7 +69,7 @@
                     <div>
                       <el-icon style="top:2px">
                         <el-icon>
-                          <ChatLineRound/>
+                          <ChatLineRound />
                         </el-icon>
                       </el-icon>
                       留言
@@ -96,10 +89,10 @@
         <el-col>
           <div style="margin-left:10px">
             <el-pagination v-model:current-page="pagination_config.currentPage"
-                           v-model:page-size="pagination_config.pageSize" :small="pagination_config.small"
-                           :pager-count="pagination_config.pagerCount" :background="pagination_config.background"
-                           :layout="pagination_config.layout" :total="pagination_config.total"
-                           @size-change="handleSizeChange" @current-change="handleCurrentChange"/>
+              v-model:page-size="pagination_config.pageSize" :small="pagination_config.small"
+              :pager-count="pagination_config.pagerCount" :background="pagination_config.background"
+              :layout="pagination_config.layout" :total="pagination_config.total" @size-change="handleSizeChange"
+              @current-change="handleCurrentChange" />
           </div>
         </el-col>
       </el-row>
@@ -108,10 +101,10 @@
 </template>
 
 <script setup>
-import {downApi, showIndexList, loadVideoLink} from '../../api/modules/index';
-import {onMounted, reactive, ref, onActivated} from 'vue'
-import {useRouter} from 'vue-router'
-import {ElMessage} from "element-plus";
+import { downApi, showIndexList, loadVideoLink } from '../../api/modules/index';
+import { onMounted, reactive, ref, onActivated } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from "element-plus";
 
 const route = useRouter()
 const table_config = reactive({
@@ -161,6 +154,7 @@ const selectoptions = [{
 
 ]
 const selectValue = ref('category=hot&viewtype=basic')
+const showPic = ref()
 
 
 const love = (args) => {
@@ -234,7 +228,7 @@ const preview_video = async (href, img, title) => {
   let response = await loadVideoLink(href);
   route.push({
     "name": "video-preview",
-    "params": { href: response.data, img: img,title: title },
+    "params": { href: response.data, img: img, title: title },
   });
 }
 

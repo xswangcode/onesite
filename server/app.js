@@ -21,10 +21,9 @@ AppRouters.routersList.forEach(router => {
   app.use(router.routes())
 });
 
-console.log("CONFIG",CONFIG);
-console.log("process.env.PORT",process.env.PORT)
+console.log("CONFIG",CONFIG); 
 
-const SERVER_PORT = process.env.PORT || 80
+const SERVER_PORT =  CONFIG.server_port || 80
 app.listen(SERVER_PORT, () => {
   console.log("\nVisit app listening on url :\n")
   CONFIG.ipv4.map(v=>{

@@ -14,7 +14,6 @@ export default defineConfig({
     logger: false,
     mockPath: "./mock/index.js",
   },
-
   plugins: [
     vue(),
     viteCompression({
@@ -27,7 +26,14 @@ export default defineConfig({
     }),
   ],
   server: {
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    proxy:{
+      "/video" : {
+        target: 'http://127.0.0.1:5123/video/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/video/, '')
+      }
+    }
   },
   build: {
     outDir:"./server/public/",
