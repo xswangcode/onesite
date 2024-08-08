@@ -1,5 +1,35 @@
-var fs = require("fs")
+//引入相关资源包
+var fs = require("fs");
+var path = require("path");
+var request = require("request");
 
+/**
+ * 
+ * @param {*} url  网络文件url地址
+ * @param {*} fileName 	文件名
+ * @param {*} dir 下载到的目录
+ */
+function getfileByUrl(url,fileName,dir){
+        console.log('------------------------------------------------')
+        console.log(url)
+        console.log(fileName)
+        console.log(dir)
+
+        let writeStream = fs.createWriteStream(path.join(dir, fileName));
+        var readStream = request(url)
+        readStream.pipe(writeStream);
+        readStream.on('end', function(response) {
+            console.log("文件" + fileName + "下载完毕");
+            writeStream.end();
+        });
+        readStream.on("close", function (err) {
+            console.log("文件" + fileName + "下载完毕");
+        });
+
+        writeStream.on("finish", function() {
+            console.log("ok");
+        });
+}
 
 /**
  * 写入文本信息到文件中
@@ -61,6 +91,7 @@ const writeFileWithBin = (path,bin_data=null,flags='a',cb =()=>{})=>{
 }
 
 module.exports = {
+    GetfileByUrl:getfileByUrl,
     OutToFile:OutToFile,
     ReadFromFile:ReadFromFile,
     WriteFileWithBin:writeFileWithBin
