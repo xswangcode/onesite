@@ -3,7 +3,8 @@ const DecryptUtils = require("../../utils/DecryptUtils")
 const cheerio = require('cheerio');
 const config = require("../../config/config")
 const common = require("./common")
-
+const fs = require('fs');
+const path = require('path');
 
 /**
  * 1. 首页接口，并可以传page参数
@@ -85,10 +86,36 @@ const down_video = async (link, file_name) => {
     return {path:path_file}
 }
 
+
+const list_file = () => {
+    const fileList = fs.readdirSync(config.FILE_SAVE_PATH);
+    const result = [];
+
+    fileList.forEach(file => {
+        const filePath = path.join(config.FILE_SAVE_PATH, file);
+        const stats = fs.statSync(filePath);
+        if(stats.isDirectory())
+            return;
+        const attributes = {
+            name: file,
+            path: filePath,
+            isDirectory: stats.isDirectory(),
+            size: (stats.size / 1024/1024).toFixed(2) +"MB",
+            createdAt: stats.birthtimeMs,
+            updatedAt: stats.mtimeMs
+        };
+
+        result.push(attributes);
+    });
+
+    return result;
+}
+
 module.exports = {
     Index_Page: index_page,
     Hot_page: hot_page,
     Detail_Page: detail_page,
     Down_Video:down_video,
+    List_File:list_file,
     Load_Video_Link:parse_video_link,
 }

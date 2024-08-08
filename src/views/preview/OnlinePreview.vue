@@ -6,7 +6,7 @@
       <el-button type="link" @click="downloadFile(data.videoSrc)">下载</el-button>
     </div>
     <div class="mt10 myVideo">
-      <VideoJs :videoSrc="data.videoSrc" :preview-img-src="data.imgSrc"/>
+      <VideoJs :videoSrc="data.videoSrc" :preview-img-src="data.imgSrc" type="video/mp4"/>
     </div>
   </el-card>
 </template>
@@ -21,7 +21,7 @@ import axios from '../../api/request'
 
 // 获取参数
 const route = useRouter()
-const this_href = route.currentRoute.value.params.href || 'https://vjs.zencdn.net/v/oceans.mp4'
+const this_href = route.currentRoute.value.params.href ||'https://www.w3schools.com/html/movie.mp4'
 const img = route.currentRoute.value.params.img || img404
 const title = route.currentRoute.value.params.title || ""
 

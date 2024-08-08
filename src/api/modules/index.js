@@ -119,3 +119,10 @@ export function loadVideoLink(link) {
     }
   });
 }
+
+export function localFileList() {
+  return service({
+    method: "get",
+    url: "/video/list_localfile"
+  });
+}

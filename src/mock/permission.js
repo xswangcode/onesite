@@ -36,6 +36,10 @@ let menuList = [
         url: "/video-preview",
         title: "在线预览",
         icon: "VideoCameraFilled",
+      },  {
+        url: "/list-localfile",
+        title: "本地列表",
+        icon: "VideoCameraFilled",
       }
     ],
   }, 

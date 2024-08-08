@@ -1,6 +1,7 @@
 const Koa = require('koa');
 
 const static = require('koa-static')
+const Mount = require('koa-mount');
 const AppRouters = require("./src/appRouters")
 const CONFIG = require("./config/config")
 const cors = require('koa2-cors');
@@ -16,6 +17,13 @@ app.use(static(__dirname + '/public', {
   hidden: false,   // 是否同意传输隐藏文件
   defer: true      // 如果为true，则在返回next()之后进行服务，从而允许后续中间件先进行响应
 }))
+
+app.use(Mount("/video/",static(CONFIG.FILE_SAVE_PATH, {
+  prefix: "/video",
+  index: false,    // 默认为true  访问的文件为index.html  可以修改为别的文件名或者false
+  hidden: true,   // 是否同意传输隐藏文件
+  defer: true      // 如果为true，则在返回next()之后进行服务，从而允许后续中间件先进行响应
+})))
 
 AppRouters.routersList.forEach(router => {
   app.use(router.routes())

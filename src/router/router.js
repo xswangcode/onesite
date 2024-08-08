@@ -124,6 +124,14 @@ const routes = [{
         meta: {
           name: "在线预览",
         },
+      },
+      {
+        path: "/list-localfile",
+        name: "list-localfile",
+        component:  () => import("../views/preview/localVideoList.vue"),
+        meta: {
+          name: "本地列表",
+        },
       }
     ]
   }, 
