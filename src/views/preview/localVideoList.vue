@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>本地列表</h3>
-        <el-row v-for="item in dataList" :span="24">
+        <el-row  :span="24">
             <el-col :span="18">  名字 </el-col>
             <el-col :span="3">  大小 </el-col>
         </el-row>
