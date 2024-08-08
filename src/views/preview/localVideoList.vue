@@ -6,7 +6,7 @@
             <el-col :span="3">  大小 </el-col>
         </el-row>
         <el-row v-for="item in dataList" :span="24">
-            <el-col :span="18"> <el-link type="success" :href="item.path" @click="preview_video(item.path,item.name)">{{ item.name }} </el-link> </el-col>
+            <el-col :span="18"> <el-link type="success" @click="preview_video(item.path,item.name)">{{ item.name }} </el-link> </el-col>
             <el-col :span="3"> {{ item.size }} </el-col>
         </el-row>
     </div>
