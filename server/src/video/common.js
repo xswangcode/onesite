@@ -7,6 +7,7 @@ const download = require("download")
 const FileUtil = require("../../utils/FileUtils")
 const fs = require("fs");
 const path = require("path");
+const fastdown = require('fast-down')
 
 //region 解析列表页
 const parseItem = (itemhtml) => {
@@ -90,9 +91,9 @@ const downloadFile = async (link, save_path, fileName) => {
         console.log("正在下载: " + fileName)
         console.log("link: " + link)
 
-        const res = await download(link);
-        fs.writeFileSync(path_file, res, { flag: 'a' });
         
+        
+        let stime = new Date().getTime();
         var url = link;
         var filepath = path_file
         var con_num = 8;
@@ -103,9 +104,8 @@ const downloadFile = async (link, save_path, fileName) => {
         downloader.onProgress((pct, tinfo, pinfo) => {
             console.log('progress:', parseFloat(pct*100).toFixed(2).toString()+'%');
         });
-        let ret = downloader.download();
-        console.log('download ' + (ret ? 'success' : 'fail') + ', cost: ' + (new Date().getTime() - stime)/1000 + 's');
-
+        let ret = await downloader.download();
+        console.log('download ' + (ret ? 'success' : 'fail') + ', cost: ' + (new Date().getTime() - stime)/1000 + 'ms');
         console.log("下载完成" + fileName + "\t savepath:", path_file)
         return Promise.resolve(path_file)
     } catch (err) {
