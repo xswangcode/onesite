@@ -83,7 +83,7 @@ const down_video = async (link, file_name) => {
     if(!detail)
         return "error:detail is null";
     let path_file = await common.downloadFile(detail["link"], file_name+".mp4")
-    return {path:path_file}
+    return path_file 
 }
 
 
@@ -94,8 +94,6 @@ const list_file = () => {
     fileList.forEach(file => {
         const filePath = path.join(config.VISIT_PATH, file);
         const stats = fs.statSync(filePath);
-        if(stats.isDirectory())
-            return;
         const attributes = {
             name: file,
             path: filePath,

@@ -92,24 +92,16 @@ const downloadFile = async (link, fileName) => {
         // 确保文件夹存在
         if (!fs.existsSync(save_path)) {
             fs.mkdirSync(save_path);
-            try {
-                // 设置权限为读写，这里的数字代表权限，分别对应 chmod 420 (读权限，4+2+0)
-                fs.chmodSync(dirPath, 0o666);
-                console.log('文件夹权限已设置。');
-            } catch (error) {
-                console.error(`无法设置权限: ${error.message}`);
-            }
         }
-        let path_file = path.join(config.PUSH_ARIA2_PATH, ymdpath, fileName)
+        let path_file = path.join(config.PUSH_ARIA2_PATH, ymdpath)
         console.log("正在下载: " + fileName)
         console.log(link)
         await Aria2Utils.pushUrlDownload(link, fileName, path_file);
-        return Promise.resolve(path_file)
+        return Promise.resolve(path_file + fileName )
     } catch (err) {
         console.log("==============存储文件失败 - begin ================")
         console.log(err)
         console.log("==============存储文件失败 - end   ================")
-        return Promise.reject("存储文件失败")
     }
 }
 //endregion
