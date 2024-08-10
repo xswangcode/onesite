@@ -82,17 +82,17 @@ const down_video = async (link, file_name) => {
     let detail = common.parsePageInfo(response.data)
     if(!detail)
         return "error:detail is null";
-    let path_file = await common.downloadFile(detail["link"], config.FILE_SAVE_PATH, file_name+".mp4")
+    let path_file = await common.downloadFile(detail["link"], file_name+".mp4")
     return {path:path_file}
 }
 
 
 const list_file = () => {
-    const fileList = fs.readdirSync(config.FILE_SAVE_PATH);
+    const fileList = fs.readdirSync(config.VISIT_PATH);
     const result = [];
 
     fileList.forEach(file => {
-        const filePath = path.join(config.FILE_SAVE_PATH, file);
+        const filePath = path.join(config.VISIT_PATH, file);
         const stats = fs.statSync(filePath);
         if(stats.isDirectory())
             return;
@@ -104,10 +104,8 @@ const list_file = () => {
             createdAt: stats.birthtimeMs,
             updatedAt: stats.mtimeMs
         };
-
         result.push(attributes);
     });
-
     return result;
 }
 

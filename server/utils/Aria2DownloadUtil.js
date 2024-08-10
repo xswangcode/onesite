@@ -32,8 +32,8 @@ aria2.on("input", (m) => {
 });
 
 
-const pushUrlDownload = (url, name) => {
-    return aria2.call('addUri', [url], { "out": name }).then(
+const pushUrlDownload = (url, name, path) => {
+    return aria2.call('addUri', [url], { "out": name, dir: path }).then(
         (response) => {
             if (response) {
                 console.log('下载已添加');

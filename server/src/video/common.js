@@ -71,24 +71,32 @@ const parsePageInfo = (detailHTML) => {
     return result
 }
 
+const getYMD = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = ('0' + (now.getMonth() + 1)).slice(-2);
+    const day = ('0' + now.getDate()).slice(-2);
+    return year + month + day;
+}
 
 /**
  * 下载文件到指定位置
  * @param link 网络url
- * @param save_path 本地存储位置
  * @param fileName 文件名
  * @returns {Promise<string>}
  */
-const downloadFile = async (link, save_path, fileName) => {
+const downloadFile = async (link, fileName) => {
     try {
+        let ymdpath = getYMD()
+        let save_path = path.join(config.VISIT_PATH, ymdpath);
         // 确保文件夹存在
         if (!fs.existsSync(save_path)) {
             fs.mkdirSync(save_path);
         }
-        let path_file = path.join(save_path, fileName)
+        let path_file = path.join(config.PUSH_ARIA2_PATH, ymdpath, fileName)
         console.log("正在下载: " + fileName)
         console.log(link)
-        await Aria2Utils.pushUrlDownload(link, fileName);
+        await Aria2Utils.pushUrlDownload(link, fileName, path_file);
         return Promise.resolve(path_file)
     } catch (err) {
         console.log("==============存储文件失败 - begin ================")
