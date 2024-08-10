@@ -56,6 +56,13 @@ router.post("/loadVideoLink", async (ctx) => {
 router.post("/list_localfile", async (ctx) => {
     let args = ctx.request.body
     let res =  API.List_File(args.path)
-    ctx.response.body = res;
+    // 分离目录和文件
+    const directories = res.filter(file => file.isDirectory);
+    const filesOnly = res.filter(file => !file.isDirectory);
+    // 对文件按文件名排序
+    filesOnly.sort((a, b) => a.name.localeCompare(b.name));
+    // 合并目录和文件
+    const sortedFiles = directories.concat(filesOnly);
+    ctx.response.body = sortedFiles;
 })
 module.exports = router;
