@@ -38,7 +38,7 @@ onMounted(() => {
 const preview_video = async (href, title) => {
     route.push({
         "name": "video-preview",
-        "params": { href: "/video/" + title, title: title },
+        "params": { href: "/video/"+pathpath.value+'/' + title, title: title },
 
     });
 }
