@@ -31,7 +31,8 @@ const preview_video = async (href , title) => {
   route.push({
     "name": "video-preview",
     "params": { href: "/video/"+title,   title: title },
-  });
+ 
+});
 }
 
 </script>

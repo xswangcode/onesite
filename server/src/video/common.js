@@ -1,13 +1,11 @@
 const cheerio = require('cheerio');
 const lodash = require('lodash');
-const axios = require("../../utils/request");
 const DecryptUtils = require("../../utils/DecryptUtils")
 const config = require("../../config/config")
-const download = require("download")
-const FileUtil = require("../../utils/FileUtils")
 const fs = require("fs");
 const path = require("path");
-const fastdown = require('fast-down')
+const Aria2Utils = require('../../utils/Aria2DownloadUtil');
+
 
 //region 解析列表页
 const parseItem = (itemhtml) => {
@@ -89,24 +87,8 @@ const downloadFile = async (link, save_path, fileName) => {
         }
         let path_file = path.join(save_path, fileName)
         console.log("正在下载: " + fileName)
-        console.log("link: " + link)
-
-        
-        
-        let stime = new Date().getTime();
-        var url = link;
-        var filepath = path_file
-        var con_num = 8;
-        var downloader = new fastdown.Downloader(url, filepath, {
-            'concurrency': con_num,
-            'progress_throttle': 4000,
-        });
-        downloader.onProgress((pct, tinfo, pinfo) => {
-            console.log('progress:', parseFloat(pct*100).toFixed(2).toString()+'%');
-        });
-        let ret = await downloader.download();
-        console.log('download ' + (ret ? 'success' : 'fail') + ', cost: ' + (new Date().getTime() - stime)/1000 + 'ms');
-        console.log("下载完成" + fileName + "\t savepath:", path_file)
+        console.log(link)
+        await Aria2Utils.pushUrlDownload(link, fileName);
         return Promise.resolve(path_file)
     } catch (err) {
         console.log("==============存储文件失败 - begin ================")
