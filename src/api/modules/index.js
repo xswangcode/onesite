@@ -120,9 +120,12 @@ export function loadVideoLink(link) {
   });
 }
 
-export function localFileList() {
+export function localFileList(path) {
   return service({
-    method: "get",
-    url: "/video/list_localfile"
+    method: "post",
+    url: "/video/list_localfile",
+    data:{
+      path:path,
+    }
   });
 }

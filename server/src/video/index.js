@@ -53,8 +53,9 @@ router.post("/loadVideoLink", async (ctx) => {
     }
 })
 
-router.get("/list_localfile", async (ctx) => {
-    let res =  API.List_File()
+router.post("/list_localfile", async (ctx) => {
+    let args = ctx.request.body
+    let res =  API.List_File(args.path)
     ctx.response.body = res;
 })
 module.exports = router;

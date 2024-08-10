@@ -87,12 +87,19 @@ const down_video = async (link, file_name) => {
 }
 
 
-const list_file = () => {
-    const fileList = fs.readdirSync(config.VISIT_PATH);
+const list_file = (basepath) => {
+    
+    if(basepath!=""){
+        basepath = path.join(config.VISIT_PATH,basepath)
+    }else{
+        basepath = config.VISIT_PATH
+    }
+    
+    const fileList = fs.readdirSync(basepath);
     const result = [];
 
     fileList.forEach(file => {
-        const filePath = path.join(config.VISIT_PATH, file);
+        const filePath = path.join(basepath, file);
         const stats = fs.statSync(filePath);
         const attributes = {
             name: file,
