@@ -1,5 +1,5 @@
 // 目标网站的相关配置
-const BASE_URL = "https://0730.9p22p.com"
+const BASE_URL = "https://0729.9p47q.com/"
 const HOT_NOW_URL = BASE_URL
 const VIDEO_PAGE_URL = BASE_URL + "view_video.php"
 const SOURCE_BEGIN_SPAN = "strencode2("
