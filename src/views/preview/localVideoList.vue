@@ -64,7 +64,7 @@ const orderBy = (bytag) => {
     if (sortedStatus[bytag]) {
         sortedStatus[bytag] = -1 * sortedStatus[bytag]
     }
-    dataList.value = oldList.toSorted((a, b) => {
+    dataList.value = oldList.sort((a, b) => {
         return sortedStatus[bytag] * (a[bytag] > b[bytag] ? -1 : 1)
     })
 
