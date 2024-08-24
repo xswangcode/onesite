@@ -10,13 +10,14 @@
     <div v-loading="table_config.isloading">
       <el-row>
         <el-col :span="7">
-          <el-link @click="handleCurrentChange(pagination_config.currentPage -1)" style="padding-left: 10px;"> 上一页</el-link>
+          <el-link @click="handleCurrentChange(pagination_config.currentPage - 1)" style="padding-left: 10px;">
+            上一页</el-link>
         </el-col>
         <el-col :span="10" class="page-size-content">
           <h3 class="font-color">第{{ pagination_config.currentPage }}页</h3>
         </el-col>
-        <el-col :span="7"  style="text-align: right;"> 
-          <el-link @click="handleCurrentChange(pagination_config.currentPage +1)"> 下一页</el-link>
+        <el-col :span="7" style="text-align: right;">
+          <el-link @click="handleCurrentChange(pagination_config.currentPage + 1)"> 下一页</el-link>
         </el-col>
       </el-row>
       <el-row>
@@ -27,7 +28,8 @@
               <div style="display:none">
                 {{ it.id }}
               </div>
-              <div style="width: 400px;height: 255px;text-align:center" @click="preview_video(it.href, it.imgurl, it.title)">
+              <div style="width: 400px;height: 255px;text-align:center"
+                @click="preview_video(it.href, it.imgurl, it.title)">
                 <el-image style="max-width: 100%;max-height: 100%;" :src="it.imgurl" v-show="showPic" />
               </div>
               <div class="multi-line2">
@@ -170,10 +172,10 @@ const star = (args) => {
 }
 const down = async (link, name) => {
   let response = await downApi(link, name).then(res => {
-    ElMessage.success(name + '下载完成！文件路径：' + JSON.stringify(res));
+    ElMessage.success("[" + name + "]下载完成！");
   }).catch(err => {
-    ElMessage.error(err);
-  })
+      ElMessage.error(err);
+    })
 }
 // 分页组件属性和事件
 const pagination_config = reactive({
@@ -190,10 +192,10 @@ const handleSizeChange = (args) => {
   pagination_config.pageSize = args
 }
 const handleCurrentChange = (args) => {
-  if(args<=0) {
+  if (args <= 0) {
     args = 1
   }
-  if(args >=  pagination_config.pagerCount){
+  if (args >= pagination_config.pagerCount) {
     args = pagination_config.pagerCount
   }
   pagination_config.currentPage = args
