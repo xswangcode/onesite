@@ -9,14 +9,18 @@
     </div>
     <div v-loading="table_config.isloading">
       <el-row>
-        <el-col :span="7"></el-col>
+        <el-col :span="7">
+          <el-link @click="handleCurrentChange(pagination_config.currentPage -1)" style="padding-left: 10px;"> 上一页</el-link>
+        </el-col>
         <el-col :span="10" class="page-size-content">
           <h3 class="font-color">第{{ pagination_config.currentPage }}页</h3>
         </el-col>
-        <el-col :span="7"></el-col>
+        <el-col :span="7"  style="text-align: right;"> 
+          <el-link @click="handleCurrentChange(pagination_config.currentPage +1)"> 下一页</el-link>
+        </el-col>
       </el-row>
       <el-row>
-        <el-scrollbar height="70vh">
+        <el-scrollbar height="70vh" ref="congtentScrollbar">
           <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="content-item"
             v-for="(it, idx) in table_config.data">
             <div class="grid-content">
@@ -107,6 +111,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from "element-plus";
 
 const route = useRouter()
+const congtentScrollbar = ref(null)
 const table_config = reactive({
   isloading: true,
   data: []
@@ -165,7 +170,7 @@ const star = (args) => {
 }
 const down = async (link, name) => {
   let response = await downApi(link, name).then(res => {
-    ElMessage.success(name + '下载完成！文件路径：' + res);
+    ElMessage.success(name + '下载完成！文件路径：' + JSON.stringify(res));
   }).catch(err => {
     ElMessage.error(err);
   })
@@ -185,9 +190,16 @@ const handleSizeChange = (args) => {
   pagination_config.pageSize = args
 }
 const handleCurrentChange = (args) => {
+  if(args<=0) {
+    args = 1
+  }
+  if(args >=  pagination_config.pagerCount){
+    args = pagination_config.pagerCount
+  }
   pagination_config.currentPage = args
   table_config.isloading = true
   loadTableData()
+  congtentScrollbar.value.setScrollTop(0)
 }
 
 const resizeWindows = () => {
@@ -210,6 +222,8 @@ const loadTableData = async () => {
   table_config.data = data.data.data;
   pagination_config.total = 1000
   table_config.isloading = false
+  // 回到最上面
+
 }
 
 const init = () => {
