@@ -65,7 +65,6 @@ const loadListFromPageHTML = (html) => {
         let pagenumber = parseInt(strPage) | 0
         maxpage = maxpage > pagenumber ? maxpage :pagenumber
     } 
-    console.log({ li: li, totalPage: maxpage });
     return { li: li, totalPage: maxpage }
 }
 //endregion
