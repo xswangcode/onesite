@@ -24,11 +24,11 @@ router.get("/hot_now/:page", async (ctx) => {
  */
 router.get("/index/:page", async (ctx) => {
     const args = { page: ctx.params.page, urlarg:ctx.query.urlarg }
-    let list_now = await API.Index_Page(args)
+    let rsp = await API.Index_Page(args)
     ctx.response.type = 'json';
     ctx.response.body = {
-        total:list_now.length,
-        data:list_now
+        data: rsp.li,
+        totalPage: rsp.totalPage
     };
 })
 

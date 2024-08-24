@@ -1,22 +1,39 @@
 <template>
   <div>
-    <h2>表格布局</h2>
-    <div>
-      <el-select v-model="selectValue" @change="loadTableData">
-        <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-      <el-switch v-model="showPic"></el-switch>
-    </div>
     <div v-loading="table_config.isloading">
-      <el-row>
-        <el-col :span="7">
+      <el-row :span="24">
+        <el-col :span="24">
+          <div style="width: 100vw">
+            <h2>表格布局<el-switch v-model="showPic"></el-switch></h2>
+          </div>
+        </el-col>
+      </el-row>
+
+      <el-row :span="24">
+        <el-col  class="content-item">
+          <!-- <el-col :span="24"> -->
+          <el-input v-model="search_content" style="max-width: 93vw" placeholder="关键词" class="input-with-select">
+            <template #prepend>
+              <el-select v-model="selectValue" placeholder="类别" style="width: 115px">
+                <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </template>
+            <template #append>
+              <el-button style="width: 50px" :icon="Search" @click="handleSearch" />
+            </template>
+          </el-input>
+        </el-col>
+      </el-row>
+
+      <el-row :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
+        <el-col :xs="6" :sm="8" :md="8" :lg="8" :xl="8">
           <el-link @click="handleCurrentChange(pagination_config.currentPage - 1)" style="padding-left: 10px;">
             上一页</el-link>
         </el-col>
-        <el-col :span="10" class="page-size-content">
+        <el-col :xs="13" :sm="8" :md="8" :lg="8" :xl="8" class="page-size-content">
           <h3 class="font-color">第{{ pagination_config.currentPage }}页</h3>
         </el-col>
-        <el-col :span="7" style="text-align: right;">
+        <el-col :xs="4" :sm="6" :md="6" :lg="6" :xl="6" style="text-align: right;">
           <el-link @click="handleCurrentChange(pagination_config.currentPage + 1)"> 下一页</el-link>
         </el-col>
       </el-row>
@@ -28,7 +45,7 @@
               <div style="display:none">
                 {{ it.id }}
               </div>
-              <div style="width: 400px;height: 255px;text-align:center"
+              <div style="width: 380px;height: 255px;text-align:center"
                 @click="preview_video(it.href, it.imgurl, it.title)">
                 <el-image style="max-width: 100%;max-height: 100%;" :src="it.imgurl" v-show="showPic" />
               </div>
@@ -111,9 +128,11 @@ import { downApi, showIndexList, loadVideoLink } from '../../api/modules/index';
 import { onMounted, reactive, ref, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from "element-plus";
+import { Search } from '@element-plus/icons-vue';
 
 const route = useRouter()
 const congtentScrollbar = ref(null)
+const search_content = ref("")
 const table_config = reactive({
   isloading: true,
   data: []
@@ -174,8 +193,8 @@ const down = async (link, name) => {
   let response = await downApi(link, name).then(res => {
     ElMessage.success("[" + name + "]下载完成！");
   }).catch(err => {
-      ElMessage.error(err);
-    })
+    ElMessage.error(err);
+  })
 }
 // 分页组件属性和事件
 const pagination_config = reactive({
@@ -183,8 +202,8 @@ const pagination_config = reactive({
   pageSize: 24,
   small: true,
   background: false,
-  total: 1000,
-  pagerCount: 5,
+  total: 0,
+  pagerCount: 0,
   layout: "prev, pager, next, jumper"
 
 })
@@ -199,10 +218,18 @@ const handleCurrentChange = (args) => {
     args = pagination_config.pagerCount
   }
   pagination_config.currentPage = args
-  table_config.isloading = true
   loadTableData()
-  congtentScrollbar.value.setScrollTop(0)
 }
+
+/**需要登录挺麻烦的**/
+const handleSearch = () => {
+  if (search_content.value)
+    alert(search_content.value)
+  else {
+    loadTableData();
+  }
+}
+
 
 const resizeWindows = () => {
   if (window.innerWidth < 768) {
@@ -220,12 +247,14 @@ const resizeWindows = () => {
 }
 
 const loadTableData = async () => {
+  table_config.isloading = true
   let data = await showIndexList(pagination_config.currentPage, selectValue.value)
   table_config.data = data.data.data;
-  pagination_config.total = 1000
+  pagination_config.total = data.data.totalPage * pagination_config.pageSize
+  pagination_config.pagerCount = data.data.totalPage
   table_config.isloading = false
   // 回到最上面
-
+  congtentScrollbar.value.setScrollTop(0)
 }
 
 const init = () => {

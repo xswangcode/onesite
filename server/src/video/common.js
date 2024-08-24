@@ -42,7 +42,31 @@ const loadListFromPageHTML = (html) => {
         let result_item = parseItem(html)
         li.push(result_item)
     }
-    return li
+    // 分頁信息
+    let alist = $(".page_number").parent().children() // 所有子节点
+    // 遍历后10个节点 取最大值
+    let last10 = alist.splice(-10)
+    let maxpage = 0;
+    for(let i =0 ;i< last10.length;i++){
+        let item  = last10[i]
+
+        let anodehref = item.attribs.href
+        let strPage = ''
+        try {
+            if(!anodehref){
+                strPage = item.children[0].data
+            }else{
+                strPage = getSearchParams(anodehref)["page"]
+            }
+        } catch (error) {
+            strPage = 0
+        }
+       
+        let pagenumber = parseInt(strPage) | 0
+        maxpage = maxpage > pagenumber ? maxpage :pagenumber
+    } 
+    console.log({ li: li, totalPage: maxpage });
+    return { li: li, totalPage: maxpage }
 }
 //endregion
 
@@ -97,12 +121,32 @@ const downloadFile = async (link, fileName) => {
         console.log("正在下载: " + fileName)
         console.log(link)
         await Aria2Utils.pushUrlDownload(link, fileName, path_file);
-        return Promise.resolve(path_file + fileName )
+        return Promise.resolve(path_file + fileName)
     } catch (err) {
         console.log("==============存储文件失败 - begin ================")
         console.log(err)
         console.log("==============存储文件失败 - end   ================")
     }
+}
+
+const getSearchParams = (url) => {
+    console.log("url==>",url)
+    if(!url){
+        return {}
+    }
+    // 获取查询参数前的 ? 对应的索引位置
+    const searchIndex = url.indexOf('?')
+    // 截取出查询参数字符串，并根据 & 将其分割成一个个 name=bruce 形式字符串组成的数组
+    const searchParamsArray = url.slice(searchIndex + 1).split('&')
+    // 遍历数组，组成查询参数对象
+    return searchParamsArray.reduce((pre, cur) => {
+        const [key, value] = cur.split('=')
+        return {
+            ...pre,
+            // 需要使用 decodeURIComponent 对参数进行解码
+            [key]: decodeURIComponent(value),
+        }
+    }, {})
 }
 //endregion
 
