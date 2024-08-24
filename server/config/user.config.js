@@ -1,6 +1,6 @@
 const HOME_PATH = "/data/data/com.termux/files/home";
 const PHONE_SAVE_PATH = "/storage/emulated/0/Download/Videi";
-const VISIT_PATH = HOME_PATH + "/storage/shared/Download/Videi"; // 浏览本地的文件的路径
+const VISIT_PATH = "E://save//" // HOME_PATH + "/storage/shared/Download/Videi"; // 浏览本地的文件的路径
 const PUSH_ARIA2_PATH = PHONE_SAVE_PATH; // 推送过去的地址
 
 
