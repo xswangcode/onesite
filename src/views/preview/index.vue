@@ -203,7 +203,7 @@ const pagination_config = reactive({
   small: true,
   background: false,
   total: 0,
-  pagerCount: 0,
+  pagerCount: 5,
   layout: "prev, pager, next, jumper"
 
 })
@@ -251,7 +251,6 @@ const loadTableData = async () => {
   let data = await showIndexList(pagination_config.currentPage, selectValue.value)
   table_config.data = data.data.data;
   pagination_config.total = data.data.totalPage * pagination_config.pageSize
-  pagination_config.pagerCount = data.data.totalPage
   table_config.isloading = false
   // 回到最上面
   congtentScrollbar.value.setScrollTop(0)
