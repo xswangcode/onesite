@@ -24,7 +24,6 @@ const globalStore = useStore();
 const themeConfig = store.getters.themeConfig;
 const initBreadcrumbList = () => {
   breadcrumbList.value = route.matched;
-  console.log(route.matched);
 };
 const handleRedirect = (path) => {
   router.push(path);

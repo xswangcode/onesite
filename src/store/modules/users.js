@@ -70,7 +70,6 @@ export default {
       return new Promise((resolve, reject) => {
         LoginInfo(userInfo)
           .then((res) => {
-            console.log(res.data.data);
             sessionStorage.setItem("token", res.data.data.token);
             sessionStorage.setItem("UserInfo", JSON.stringify(res.data.data));
             commit("setToken", res.data.data.token);
@@ -90,7 +89,6 @@ export default {
     changeIsCollapse({
       commit
     }, str) {
-      console.log(str);
       commit("SetIsCollapse", str);
     },
 

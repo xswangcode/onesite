@@ -43,10 +43,8 @@ const acceptParams = (params) => {
   dialogVisible.value = true
 }
 const uploadExcel = (param) => {
-  console.log(param)
 }
 const uploadSuccess = (files) => {
-  console.log('上传成功' + JSON.stringify(files))
 }
 // 接受父组件得参数
 defineExpose({

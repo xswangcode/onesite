@@ -7,7 +7,6 @@
 const debounce = {
   mounted(el, binding) {
     if (typeof binding.value != "function") {
-      console.log("callback must be a function");
     }
     let timer = null;
     el.__handleClick__ = function () {

@@ -8,7 +8,7 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup name="online_preview">
 import {reactive} from 'vue'
 import {useRouter} from 'vue-router'
 import img404 from '../../assets/404.png'

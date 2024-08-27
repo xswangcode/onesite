@@ -44,21 +44,16 @@ const activeMenu = computed(() => {
 })
 const menuList = ref([])
 const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
 }
 const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
 }
 const themeConfig = store.getters.themeConfig
 
 
 onMounted(() => {
   getMenuList().then((res) => {
-    console.log("menuItems.value",menuItems.value)
     menuList.value = res.data.data.menuList
   })
-
- 
 })
 </script>
 

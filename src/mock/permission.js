@@ -46,7 +46,6 @@ let menuList = [
 ];
 
 export const LoginInfo = (options) => {
-  console.log(options, "接收post参数");
   const { username, password } = JSON.parse(options.body);
   if (username == "admin" && password != "123456") {
     return {
@@ -95,7 +94,6 @@ for (let index = 0; index < 50; index++) {
 const param2Obj = (url) => {
   let obj = JSON.parse(url);
   let page = obj.page;
-  console.log(page);
   return page;
 };
 
@@ -114,7 +112,6 @@ export const UserList = (options) => {
 };
 
 export const addUserList = (options) => {
-  console.log("传过来的数据" + JSON.parse(options.body));
   let obj = JSON.parse(options.body);
   obj.id = Random.id();
   userList.unshift(obj); // 将前台返回来的数据，拼接到数组中。

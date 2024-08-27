@@ -4,7 +4,7 @@
       <KeepAlive>
         <component :is="Component" />
       </KeepAlive>
-      </transition>
+    </transition>
   </router-view>
 </template>
 
@@ -18,7 +18,6 @@ const reload = () => {
   isRouterAlive.value = false;
   nextTick(() => {
     isRouterAlive.value = true;
-    console.log("数据刷新成功");
   });
 };
 

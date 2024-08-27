@@ -123,7 +123,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="video_page">
 import { downApi, showIndexList, loadVideoLink } from '../../api/modules/index';
 import { onMounted, reactive, ref, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
@@ -239,7 +239,7 @@ const resizeWindows = () => {
     pagination_config.layout = "prev, pager, next, jumper"
   } else {
     pagination_config.small = false
-    pagination_config.pagerCount = 10
+    pagination_config.pagerCount = 21
     pagination_config.background = true
     pagination_config.layout = "prev, pager, next, jumper"
 
@@ -260,8 +260,9 @@ const init = () => {
   resizeWindows()
   loadTableData()
 }
-init()
+
 onMounted(() => {
+  init()
   // / 监听浏览器窗口变化，动态计算表格高度，
   window.onresize = () => {
     return resizeWindows()

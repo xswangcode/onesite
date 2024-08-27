@@ -1,7 +1,6 @@
 const longPress = {
   mounted(el, binding) {
     if (typeof binding.value != "function") {
-      console.log("callback must be a function");
     }
     let pressTimer = null;
     let start = (e) => {

@@ -12,7 +12,6 @@
 */
 const draggable = {
   mounted: function (el) {
-    console.log(el)
     el.style.cursor = "move";
     el.style.position = "absolute";
     el.onmousedown = function (e) {
@@ -21,7 +20,6 @@ const draggable = {
       document.onmousemove = function (e) {
         let x = e.pageX - disX;
         let y = e.pageY - disY;
-        console.log(el.parentNode.offsetWidth)
         let maxX = el.parentNode.offsetWidth - el.offsetWidth;
         let maxY = el.parentNode.offsetHeight - el.offsetHeight;
         if (x < 0) {

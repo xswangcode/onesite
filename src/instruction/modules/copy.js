@@ -9,7 +9,6 @@
 import { ElMessage } from "element-plus";
 export const copy = {
   mounted: function (el, { value }) {
-    console.log(arguments);
     el.$value = value;
 
     el.onclick = () => {

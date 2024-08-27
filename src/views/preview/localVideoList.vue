@@ -40,7 +40,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup name="local_video">
 import { localFileList } from '../../api/modules/index';
 import { onMounted, reactive, ref, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
@@ -82,7 +82,6 @@ const preview_video = async (href, title) => {
 const visit_dir = async (path) => {
     pathpath.value = path;
     localFileList(pathpath.value).then(res => {
-        console.log(res.data)
         dataList.value = res.data
     })
 }

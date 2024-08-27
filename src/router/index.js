@@ -10,7 +10,6 @@ NProgress.configure({
 const writeNames = ["/login"];
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  console.log(store.getters);
   if (sessionStorage.getItem("token")) {
     if (to.path === "/login") {
       next("/");
