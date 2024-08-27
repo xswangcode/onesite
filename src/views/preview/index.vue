@@ -38,7 +38,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-scrollbar height="70vh" ref="congtentScrollbar">
+        <el-scrollbar height="60vh" ref="congtentScrollbar">
           <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="content-item"
             v-for="(it, idx) in table_config.data">
             <div class="grid-content">
@@ -314,7 +314,7 @@ const preview_video = async (href, img, title) => {
   padding: 10px 10px 5px 10px;
   padding-bottom: 20px;
   height: 350px;
-  width: 412px;
+  width: 315px;
   background-color: #e3e3e3;
   overflow: hidden;
 }
