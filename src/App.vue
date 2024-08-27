@@ -1,11 +1,5 @@
 <template>
-  <router-view v-if="isRouterAlive" v-slot="{ Component }">
-    <transition>
-      <KeepAlive>
-        <component :is="Component" />
-      </KeepAlive>
-    </transition>
-  </router-view>
+  <router-view v-if="isRouterAlive"></router-view>
 </template>
 
 <script setup>

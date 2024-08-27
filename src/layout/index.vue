@@ -15,7 +15,7 @@
         <div class="main-box">
           <router-view :class="{ shake: disabled }" v-slot="{ Component }">
             <transition>
-              <KeepAlive>
+              <KeepAlive >
                 <component :is="Component" />
               </KeepAlive>
             </transition>
@@ -36,19 +36,11 @@ import tabs from './Tabs/index.vue'
 const themeConfig = store.getters.themeConfig
 
 let router = useRouter()
-const disabled = ref(false)
-// onMounted(() => {
-//   disabled.value = true
-//   setTimeout(() => {
-//     disabled.value = false
-//   }, 1500)
-// })
-
+const disabled = ref(false) 
 watch(
   () => router.currentRoute.value.path,
   (newValue, oldValue) => {
-    if (newValue == oldValue) {
-    } else {
+    if (newValue != oldValue) {
       disabled.value = true
       setTimeout(() => {
         disabled.value = false
