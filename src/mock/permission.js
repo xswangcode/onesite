@@ -40,6 +40,10 @@ let menuList = [
         url: "/list-localfile",
         title: "本地列表",
         icon: "VideoCameraFilled",
+      },  {
+        url: "/list-localfile2",
+        title: "本地列表2",
+        icon: "VideoCameraFilled",
       }
     ],
   }, 

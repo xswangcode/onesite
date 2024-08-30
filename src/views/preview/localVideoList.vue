@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 80%;">
         <h3>本地列表</h3>
         <el-row :span="24">
             <el-col :span="2" :pull="0"> 序号 </el-col>

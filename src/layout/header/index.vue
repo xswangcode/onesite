@@ -4,9 +4,9 @@
       <Breadcrumb></Breadcrumb>
     </div>
     <div class="header-ri flx-center">
-      <Search></Search>
+      <!-- <Search></Search> -->
       <el-icon class="icon-style" @click="refresh"><Refresh /></el-icon>
-      <message></message>
+      <!-- <message></message> -->
 
       <!-- <Driver></Driver> -->
       <fullScreen></fullScreen>

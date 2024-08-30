@@ -68,13 +68,5 @@ onBeforeUnmount(() => {
 })
 </script>
 <style lang="scss" scoped>
-.videoPlay { 
-  .video-js { 
-    width: 100%;
-    height: 180px !important;
-  }
-} 
-:deep(.vjs-tech) {
-  width: 82vw;
-}
+ 
 </style>

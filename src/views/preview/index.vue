@@ -45,7 +45,7 @@
               <div style="display:none">
                 {{ it.id }}
               </div>
-              <div style="width: 380px;height: 255px;text-align:center"
+              <div style="width: 350px;height: 255px;text-align:center"
                 @click="preview_video(it.href, it.imgurl, it.title)">
                 <el-image style="max-width: 100%;max-height: 100%;" :src="it.imgurl" v-show="showPic" />
               </div>
@@ -314,7 +314,7 @@ const preview_video = async (href, img, title) => {
   padding: 10px 10px 5px 10px;
   padding-bottom: 20px;
   height: 350px;
-  width: 315px;
+  width: 298px;
   background-color: #e3e3e3;
   overflow: hidden;
 }

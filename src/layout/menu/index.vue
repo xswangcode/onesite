@@ -8,14 +8,7 @@
       color: themeConfig.textColor,
     }"
   >
-    <div class="logo" v-if="!store.getters.isCollapse">
-      <img src="../../assets/logo.png" alt="" style="margin-right: 5px" /> BIG
-      CUTE
-    </div>
-    <div class="logo" v-else>
-      <img src="../../assets/logo.png" alt="" />
-    </div>
-    <el-scrollbar style="height: 100%">
+    <el-scrollbar style="height: 100%; max-height: 100vh">
       <el-menu
         :default-active="activeMenu"
         :router="true"

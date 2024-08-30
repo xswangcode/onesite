@@ -2,12 +2,12 @@
   <el-icon class="icon-style" id="collapseIcon" @click="changeShrinkage">
     <component :is="!isCollapse ? 'Fold' : 'Expand'"></component>
   </el-icon>
-  <el-breadcrumb separator="/" id="breadcrumb">
+  <!-- <el-breadcrumb separator="/" id="breadcrumb">
     <el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="index">
       <span class="no-redirect" v-if="index === breadcrumbList.length - 1" :style="{ color: themeConfig.footColor }">{{ item.meta.name }}</span>
       <span class="redirect" v-else @click="handleRedirect(item.path)" :style="{ color: themeConfig.footColor }">{{ item.meta.name }}</span>
     </el-breadcrumb-item>
-  </el-breadcrumb>
+  </el-breadcrumb> -->
 </template>
 
 <script setup>

@@ -3,7 +3,7 @@
     <el-card class="col-center">
       <el-row>
         <el-col> 
-          <el-text type="success">{{data.title}}</el-text>
+          <el-link type="success">{{data.title}}</el-link>
         </el-col>
       </el-row>
       <el-row>

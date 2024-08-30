@@ -132,7 +132,15 @@ const routes = [{
         meta: {
           name: "本地列表",
         },
-      }
+      },
+      {
+        path: "/list-localfile2",
+        name: "OnlinePreview2",
+        component:  () => import("../views/preview/OnlineRebuild.vue"),
+        meta: {
+          name: "在线预览-重构",
+        },
+      },
     ]
   }, 
 ];
