@@ -80,8 +80,10 @@ const down_video = async (link, file_name) => {
         headers:config.getVisitHeaders(),
     })
     let detail = common.parsePageInfo(response.data)
-    if(!detail)
+    if(!detail){
+        common.write_error_down_link(link,file_name,0)
         return "error:detail is null";
+    }
     let path_file = await common.downloadFile(detail["link"], file_name+".mp4")
     return path_file 
 }

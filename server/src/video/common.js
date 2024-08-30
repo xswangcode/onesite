@@ -86,6 +86,7 @@ const parsePageInfo = (detailHTML) => {
         result["link"] = sourceTag("source")[0].attribs['src']
     } catch (err) {
         console.log("===========解析视频链接失败 - begin ==============")
+        console.log($.html())
         console.log(err)
         console.log("===========解析视频链接失败 -  end  ==============")
         return null;
@@ -147,10 +148,16 @@ const getSearchParams = (url) => {
         }
     }, {})
 }
+
+const write_error_down_link = (name,link,vid)=>{
+    let res = `${vid}\t\t\t${name}\t\t\t${link}`
+    fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"downerror.log",res)
+}
 //endregion
 
 module.exports = {
     loadListFromPageHTML: loadListFromPageHTML,
     parsePageInfo: parsePageInfo,
     downloadFile: downloadFile,
+    write_error_down_link,
 }
