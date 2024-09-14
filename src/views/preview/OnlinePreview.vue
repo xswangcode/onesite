@@ -1,18 +1,33 @@
 <template>
   <div style="body_content">
     <el-card class="col-center">
-      <el-row>
-        <el-col>
-          <el-link type="success">{{ data.title }}</el-link>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col>
-          <div class="myVideo">
-            <VideoJs :videoSrc="data.videoSrc" :preview-img-src="data.imgSrc" />
-          </div>
-        </el-col>
-      </el-row>
+      <template v-if="data.title.endsWith('log') || data.title.endsWith('txt')">
+        <el-row>
+          <el-col>
+            <el-link type="success">{{ data.title }}</el-link>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-input type="textarea" v-model="data.content" style="width: 90vw;" :rows="10" >
+            </el-input>
+          </el-col>
+        </el-row>
+      </template>
+      <template v-else>
+        <el-row>
+          <el-col>
+            <el-link type="success">{{ data.title }}</el-link>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <div class="myVideo">
+              <VideoJs :videoSrc="data.videoSrc" :preview-img-src="data.imgSrc" />
+            </div>
+          </el-col>
+        </el-row>
+      </template>
     </el-card>
   </div>
 
@@ -24,25 +39,33 @@ import { useRouter } from 'vue-router'
 import img404 from '../../assets/404.png'
 // //找到你的组件地址引入进来
 import VideoJs from '../../components/VideoPlay.vue'
+import { getFileContnet } from '../../api/modules/index';
+
 
 // // 获取参数
 const route = useRouter()
-let this_href = route.currentRoute.value.params.href || 'https://cesium.com/public/SandcastleSampleData/big-buck-bunny_trailer.mp4'
+let this_href = route.currentRoute.value.params.href  // || 'https://cesium.com/public/SandcastleSampleData/big-buck-bunny_trailer.mp4'
 let img = route.currentRoute.value.params.img || img404
 let title = route.currentRoute.value.params.title || "这里什么也没有~"
 const data = ref({
   videoSrc: this_href,
   imgSrc: img,
-  title: title
+  title: title,
+  content:""
 })
 
-const init = () => {
-  let this_href = route.currentRoute.value.params.href || 'https://cesium.com/public/SandcastleSampleData/big-buck-bunny_trailer.mp4'
+const init = async () => {
+  let this_href = route.currentRoute.value.params.href // || 'https://cesium.com/public/SandcastleSampleData/big-buck-bunny_trailer.mp4'
   let img = route.currentRoute.value.params.img || img404
   let title = route.currentRoute.value.params.title || "这里什么也没有~"
   data.value.videoSrc = this_href
   data.value.imgSrc = img
   data.value.title = title
+  if(title.endsWith("log") || title.endsWith("txt")){
+    await getFileContnet(this_href).then(res=>{
+      data.value.content = res.data
+    })
+  }
 }
 onUpdated(() => {
   init()

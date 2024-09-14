@@ -129,3 +129,9 @@ export function localFileList(path) {
     }
   });
 }
+export function getFileContnet(path) {
+  return service({
+    method: "get",
+    url: path,
+  });
+}
