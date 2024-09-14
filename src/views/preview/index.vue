@@ -191,7 +191,7 @@ const star = (args) => {
 }
 const down = async (link, name) => {
   let response = await downApi(link, name).then(res => {
-    ElMessage.success("[" + name + "]" + res.data);
+    ElMessage.success("[" + name + "] - " + res.data);
   }).catch(err => {
     ElMessage.error(err);
   })
