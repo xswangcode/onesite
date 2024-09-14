@@ -90,7 +90,7 @@ const down_video = async (link, file_name) => {
         return "error:detail is null";
     }
     let path_file = await common.downloadFile(detail["link"], file_name+".mp4")
-    return path_file 
+    return "下载完成!" 
 }
 
 

@@ -191,7 +191,7 @@ const star = (args) => {
 }
 const down = async (link, name) => {
   let response = await downApi(link, name).then(res => {
-    ElMessage.success("[" + name + "]下载完成！");
+    ElMessage.success("[" + name + "]" + res);
   }).catch(err => {
     ElMessage.error(err);
   })
