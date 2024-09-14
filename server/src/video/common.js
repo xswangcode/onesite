@@ -155,7 +155,6 @@ const write_error_down_link = (name,link,vid)=>{
 }
 
 const check_isdownload = (pathstr,name)=>{
-    console.log(pathstr,name);
     console.log(path.join(pathstr,name));
     
     // 确保文件夹存在
