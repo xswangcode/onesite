@@ -158,7 +158,7 @@ const check_isdownload = (pathstr,name)=>{
     console.log(path.join(pathstr,name));
     
     // 确保文件夹存在
-    if (!fs.existsSync(path.join(pathstr,name))) {
+    if (fs.existsSync(path.join(pathstr,name))) {
         return true;
     }
     return false;
