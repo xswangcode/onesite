@@ -155,15 +155,15 @@ const getSearchParams = (url) => {
 
 const write_error_down_link = (name,link,vid)=>{
     let res = `${vid}\t\t\t${name}\t\t\t${link}\n`
-    fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"downerror.log",res)
+    fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"/downerror.log",res)
 }
 
-const check_isdownload = (path,name)=>{
-    console.log(path,name);
-    console.log(path.join(path,name));
+const check_isdownload = (pathstr,name)=>{
+    console.log(pathstr,name);
+    console.log(path.join(pathstr,name));
     
     // 确保文件夹存在
-    if (!fs.existsSync(path.join(path,name))) {
+    if (!fs.existsSync(path.join(pathstr,name))) {
         return true;
     }
     return false;
