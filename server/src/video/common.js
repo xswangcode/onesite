@@ -118,6 +118,10 @@ const downloadFile = async (link, fileName) => {
             fs.mkdirSync(save_path);
         }
         let path_file = path.join(config.PUSH_ARIA2_PATH, ymdpath)
+        let visit_file = path.join(config.VISIT_PATH, ymdpath)
+        let isdown = check_isdownload(visit_file,fileName)
+        if(isdown)
+            return Promise.resolve("已下载过！")
         console.log("正在下载: " + fileName)
         console.log(link)
         await Aria2Utils.pushUrlDownload(link, fileName, path_file);
@@ -152,6 +156,17 @@ const getSearchParams = (url) => {
 const write_error_down_link = (name,link,vid)=>{
     let res = `${vid}\t\t\t${name}\t\t\t${link}\n`
     fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"downerror.log",res)
+}
+
+const check_isdownload = (path,name)=>{
+    console.log(path,name);
+    console.log(path.join(path,name));
+    
+    // 确保文件夹存在
+    if (!fs.existsSync(path.join(path,name))) {
+        return true;
+    }
+    return false;
 }
 //endregion
 
