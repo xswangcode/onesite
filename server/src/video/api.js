@@ -74,6 +74,11 @@ const parse_video_link = async (link)=>{
 
 
 const down_video = async (link, file_name) => {
+    let ymdpath = common.getYMD()
+    let isdown = check_isdownload(path.join(config.VISIT_PATH, ymdpath), file_name)
+    if(isdown)
+        return  "已下载过！"
+
     let response = await  axios({
         method:"get",
         url:link,

@@ -118,10 +118,6 @@ const downloadFile = async (link, fileName) => {
             fs.mkdirSync(save_path);
         }
         let path_file = path.join(config.PUSH_ARIA2_PATH, ymdpath)
-        let visit_file = path.join(config.VISIT_PATH, ymdpath)
-        let isdown = check_isdownload(visit_file,fileName)
-        if(isdown)
-            return Promise.resolve("已下载过！")
         console.log("正在下载: " + fileName)
         console.log(link)
         await Aria2Utils.pushUrlDownload(link, fileName, path_file);
@@ -175,4 +171,6 @@ module.exports = {
     parsePageInfo: parsePageInfo,
     downloadFile: downloadFile,
     write_error_down_link,
+    check_isdownload:check_isdownload,
+    getYMD:getYMD,
 }
