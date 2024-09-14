@@ -150,7 +150,7 @@ const getSearchParams = (url) => {
 }
 
 const write_error_down_link = (name,link,vid)=>{
-    let res = `${vid}\t\t\t${name}\t\t\t${link}`
+    let res = `${vid}\t\t\t${name}\t\t\t${link}\n`
     fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"downerror.log",res)
 }
 //endregion
