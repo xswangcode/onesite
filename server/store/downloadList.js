@@ -22,5 +22,5 @@ const getDownloadedList = ()=>{
 module.exports = {
     addFile: addFile,
     initList: initList,
-    getDownloadedList:DownloadedList,
+    getDownloadedList:getDownloadedList,
 }
