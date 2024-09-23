@@ -246,14 +246,18 @@ const resizeWindows = () => {
   }
 }
 
-const loadTableData = async () => {
+const loadTableData = () => {
   table_config.isloading = true
-  let data = await showIndexList(pagination_config.currentPage, selectValue.value)
-  table_config.data = data.data.data;
-  pagination_config.total = data.data.totalPage * pagination_config.pageSize
-  table_config.isloading = false
-  // 回到最上面
-  congtentScrollbar.value.setScrollTop(0)
+  showIndexList(pagination_config.currentPage, selectValue.value).then(data=>{
+    table_config.data = data.data.data;
+    pagination_config.total = data.data.totalPage * pagination_config.pageSize
+    table_config.isloading = false
+    // 回到最上面
+    congtentScrollbar.value.setScrollTop(0)
+  }).catch(err=>{
+    ElMessage.error(err)
+  })
+
 }
 
 const init = () => {
