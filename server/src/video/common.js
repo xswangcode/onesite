@@ -158,10 +158,8 @@ const check_isdownload = (name)=>{
     const { DownloadedList } = require('../../store/downloadList')
     
     let filterRes = DownloadedList.filter(el=>{
-        return el.name === name
+        return el.name.indexOf(name) > -1
     })
-    console.log(filterRes);
-    
     return filterRes.length>0
 }
 //endregion
