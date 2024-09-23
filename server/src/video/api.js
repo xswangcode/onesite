@@ -75,7 +75,7 @@ const parse_video_link = async (link)=>{
 
 const down_video = async (link, file_name) => {
     let ymdpath = common.getYMD()
-    let isdown = common.check_isdownload(path.join(config.VISIT_PATH, ymdpath), file_name+".mp4")
+    let isdown = common.check_isdownload(file_name+".mp4")
     if(isdown)
         return  "已下载过！"
 
