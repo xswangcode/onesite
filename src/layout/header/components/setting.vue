@@ -51,6 +51,18 @@
         style="margin-left: 24px"
       />
     </div>
+    <el-divider>系统设置</el-divider>
+    <div>
+      <div class="flx-tit">
+        <el-row :span="24">
+          <el-col :span="6">cookie</el-col>
+          <el-col :span="18"><textarea  class="mt-2"   rows="8"  @change="changeCookie($event)" v-model="cookie"
+            style="margin-left: 32px;" />
+          </el-col>
+        </el-row>
+      </div>
+      
+    </div>
     <!-- <div class="theme-item">
         <el-color-picker
           v-model="themeConfig.primary"
@@ -108,6 +120,7 @@ import store from '../../../store/index.js'
 import { mix } from '../../../utils/color.js'
 import { useStore } from 'vuex'
 const value2 = ref(true)
+const cookie =ref("")
 const istags = computed(() => {
   return store.getters.themeConfig.istags
 })
@@ -156,6 +169,9 @@ const changeGreyOrWeak = (e) => {
 }
 const changeTags = (e) => {
   globalStore.dispatch('user/changeTags', e)
+}
+const changeCookie = (e) => {
+  globalStore.dispatch('user/changeCookie', cookie.value)
 }
 </script>
 

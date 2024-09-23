@@ -14,6 +14,7 @@ export default {
   state: {
     UserInfo: {},
     token: sessionStorage.getItem("token") || "",
+    cookie: sessionStorage.getItem("cookie") || "",
     isCollapse: true,
     themeConfig: {
       primary: "#4060c7",
@@ -27,6 +28,10 @@ export default {
   mutations: {
     setToken(state, token) {
       state.token = token;
+    },
+    setCookie(state, cookie) {
+      sessionStorage.setItem("cookie", cookie);
+      state.cookie = cookie;
     },
     setUserInfo(state, userinfo) {
       state.UserInfo = userinfo;
@@ -60,7 +65,7 @@ export default {
       } else {
         state.themeConfig.istags = false
       }
-    },
+    }
   },
 
   actions: {
@@ -123,6 +128,11 @@ export default {
       commit
     }, val) {
       commit("setThemeConfigchangeTags", val);
+    },
+    changeCookie({
+      commit
+    }, val) {
+      commit('setCookie',val)
     },
   },
 };
