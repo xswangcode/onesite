@@ -157,13 +157,9 @@ const write_error_down_link = (name,link,vid)=>{
 
 const check_isdownload = (name)=>{
     let data = getDownloadedList()
-    console.log(data.length);
-    
     let filterRes = data.filter(el=>{
-        return el.name.indexOf(name) > -1
+        return name.indexOf(el.name) > -1
     })
-    console.log(filterRes,name);
-    
     return filterRes.length>0
 }
 //endregion
