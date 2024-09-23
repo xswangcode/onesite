@@ -162,6 +162,8 @@ const check_isdownload = (name)=>{
     let filterRes = data.filter(el=>{
         return el.name.indexOf(name) > -1
     })
+    console.log(filterRes,name);
+    
     return filterRes.length>0
 }
 //endregion
