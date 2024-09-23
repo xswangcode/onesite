@@ -21,6 +21,10 @@ const getIndexPageUrl = (args) => {
 
 const getVisitHeaders = () => {
     return { 
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "cache-control": "no-cache",
+        "pragma": "no-cache",
         "Accept-Language": "zh-CN,zh;q=0.9",  
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" 
     }

@@ -1,29 +1,23 @@
-const fs=require('fs');
-const path=require('path');
-/**
- * 遍历指定目录下的所有文件
- * @param {*} dir 
- */
-const getAllFile = function(dir){
-    let res=[]
-    function traverse(dir){
-        fs.readdirSync(dir).forEach((file)=>{
-            const pathname=path.join(dir,file)
-            if(fs.statSync(pathname).isDirectory()){
-                traverse(pathname)
-            }else{
-                if(file.endsWith("mp4"))
-                    res.push({
-                        name:file.replace('.mp4',''),
-                        path:pathname
-                    })
-            }
-        })
-    }
-    traverse(dir)
-    return res;
-}
 
-
-
-console.log(getAllFile('e://save')[0])
+fetch(" https://0729.9p47q.com/view_video.php?viewkey=275da9ced9eb9d78bac4&page=2&c=ugiyb&viewtype=basic&category=top", {
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "accept-language": "zh-CN,zh;q=0.9",
+      "cache-control": "no-cache",
+      "pragma": "no-cache",
+      "cookie": "userId=admin; password=MTIzNDU2",
+      "Referer": "http://192.168.0.23:5123/",
+      "Referrer-Policy": "strict-origin-when-cross-origin"
+    },
+    "body": null,
+    "method": "GET"
+  }).then(res=>{
+      return res.text()
+  }).then(text=>{
+    console.log(text)
+    
+  })
+  .catch(err=>{
+      console.error(err)
+  })
+  
