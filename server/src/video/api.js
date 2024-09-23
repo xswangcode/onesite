@@ -87,7 +87,7 @@ const down_video = async (link, file_name) => {
     let detail = common.parsePageInfo(response.data)
     if(!detail){
         common.write_error_down_link(link,file_name,0)
-        return "error:detail is null";
+        return Promise.reject("detail is null");
     }
     let path_file = await common.downloadFile(detail["link"], file_name+".mp4")
     return "下载完成!" 

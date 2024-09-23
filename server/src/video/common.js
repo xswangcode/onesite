@@ -156,6 +156,7 @@ const write_error_down_link = (name,link,vid)=>{
 
 const check_isdownload = (name)=>{
     const { DownloadedList } = require('../../store/downloadList')
+    console.log(DownloadedList);
     
     let filterRes = DownloadedList.filter(el=>{
         return el.name.indexOf(name) > -1
