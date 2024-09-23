@@ -1,5 +1,6 @@
 //引入相关资源包
 var fs = require("fs");
+var path = require("path");
 
 /**
  * 写入文本信息到文件中
@@ -60,8 +61,33 @@ const writeFileWithBin = (path,bin_data=null,flags='a',cb =()=>{})=>{
     }
 }
 
+/**
+ * 遍历指定目录下的所有文件
+ * @param {*} dir 
+ */
+const getAllFile = function(dir){
+    let res=[]
+    function traverse(dir){
+        fs.readdirSync(dir).forEach((file)=>{
+            const pathname= path.join(dir,file)
+            if(fs.statSync(pathname).isDirectory()){
+                traverse(pathname)
+            }else{
+                if(file.endsWith("mp4"))
+                    res.push({
+                        name:file.replace('.mp4',''),
+                        path:pathname
+                    })
+            }
+        })
+    }
+    traverse(dir)
+    return res;
+}
+
 module.exports = {
     OutToFile:OutToFile,
     ReadFromFile:ReadFromFile,
-    WriteFileWithBin:writeFileWithBin
+    WriteFileWithBin:writeFileWithBin,
+    GetAllFile:getAllFile,
 }

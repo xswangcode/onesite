@@ -154,14 +154,13 @@ const write_error_down_link = (name,link,vid)=>{
     fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"/downerror.log",res)
 }
 
-const check_isdownload = (pathstr,name)=>{
-    console.log(path.join(pathstr,name));
+const check_isdownload = (name)=>{
+    const { DownloadedList } = require('../../store/downloadList')
     
-    // 确保文件夹存在
-    if (fs.existsSync(path.join(pathstr,name))) {
-        return true;
-    }
-    return false;
+    let filterRes = DownloadedList.filter(el=>{
+        return el.name === name
+    })
+    return filterRes.length>0
 }
 //endregion
 

@@ -6,7 +6,7 @@ const AppRouters = require("./src/appRouters")
 const CONFIG = require("./config/config")
 const cors = require('koa2-cors');
 const { koaBody } = require('koa-body');
-
+const {initList} = require("./store/downloadList")
 
 
 const app = new Koa();
@@ -37,7 +37,7 @@ app.use(Mount("/video/", static(CONFIG.VISIT_PATH, {
 AppRouters.routersList.forEach(router => {
   app.use(router.routes())
 });
-
+initList(CONFIG.VISIT_PATH)
 console.log("CONFIG", CONFIG);
 
 const SERVER_PORT = CONFIG.server_port || 80
