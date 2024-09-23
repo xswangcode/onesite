@@ -160,6 +160,8 @@ const check_isdownload = (name)=>{
     let filterRes = DownloadedList.filter(el=>{
         return el.name === name
     })
+    console.log(filterRes);
+    
     return filterRes.length>0
 }
 //endregion
