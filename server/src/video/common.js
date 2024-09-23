@@ -5,6 +5,7 @@ const config = require("../../config/config")
 const fs = require("fs");
 const path = require("path");
 const Aria2Utils = require('../../utils/Aria2DownloadUtil');
+const { getDownloadedList } = require('../../store/downloadList')
 
 
 //region 解析列表页
@@ -155,10 +156,7 @@ const write_error_down_link = (name,link,vid)=>{
 }
 
 const check_isdownload = (name)=>{
-    const { DownloadedList } = require('../../store/downloadList')
-    console.log(DownloadedList);
-    
-    let filterRes = DownloadedList.filter(el=>{
+    let filterRes = getDownloadedList().filter(el=>{
         return el.name.indexOf(name) > -1
     })
     return filterRes.length>0

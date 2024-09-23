@@ -1,4 +1,3 @@
-
 const fs = require('fs')
 const { GetAllFile } = require("../utils/FileUtils")
 let DownloadedList = []
@@ -16,9 +15,12 @@ const initList = (visit_path) => {
     fs.writeFileSync('./downloadedList.db',JSON.stringify(DownloadedList))
     console.log("初始化已下载清单成功！size:", DownloadedList.length);
 }
+const getDownloadedList = ()=>{
+    return DownloadedList;
+}
 
 module.exports = {
     addFile: addFile,
     initList: initList,
-    DownloadedList:DownloadedList
+    getDownloadedList:DownloadedList,
 }
