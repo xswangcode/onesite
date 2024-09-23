@@ -156,7 +156,10 @@ const write_error_down_link = (name,link,vid)=>{
 }
 
 const check_isdownload = (name)=>{
-    let filterRes = getDownloadedList().filter(el=>{
+    let data = getDownloadedList()
+    console.log(data.length);
+    
+    let filterRes = data.filter(el=>{
         return el.name.indexOf(name) > -1
     })
     return filterRes.length>0
