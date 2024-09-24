@@ -255,11 +255,13 @@ const loadTableData = () => {
     // 回到最上面
     congtentScrollbar.value.setScrollTop(0)
   }).catch(err=>{
-    ElMessage.error(err)
-    table_config.isloading = falsetable_config.isloading = false
+    ElMessage.error("服务器忙,请稍后再试")
+    table_config.isloading = false 
   })
   setTimeout(() => {
-    table_config.isloading = false
+    if(table_config.isloading){
+      table_config.isloading = false
+    }
   }, 5000);
 
 }
