@@ -29,10 +29,6 @@ export default {
     setToken(state, token) {
       state.token = token;
     },
-    setProxyCookie(state, cookie) {
-      localStorage.setItem("proxycookie", cookie);
-      state.proxycookie = cookie;
-    },
     setUserInfo(state, userinfo) {
       state.UserInfo = userinfo;
     },
@@ -65,6 +61,11 @@ export default {
       } else {
         state.themeConfig.istags = false
       }
+    },
+    setWebProxyCookie(state, cookie) {
+      debugger
+      localStorage.setItem("proxycookie",cookie);
+      state.proxycookie = cookie;
     }
   },
 
@@ -132,7 +133,8 @@ export default {
     changeCookie({
       commit
     }, val) {
-      commit('setProxyCookie',val)
+      debugger
+      commit('setWebProxyCookie', val)
     },
   },
 };

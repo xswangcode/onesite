@@ -120,7 +120,7 @@ import store from '../../../store/index.js'
 import { mix } from '../../../utils/color.js'
 import { useStore } from 'vuex'
 const value2 = ref(true)
-const cookie =ref("")
+const cookie = ref(store.state.user.proxycookie)
 const istags = computed(() => {
   return store.getters.themeConfig.istags
 })
