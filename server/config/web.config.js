@@ -2,6 +2,7 @@
 const BASE_URL = "https://0729.9p47q.com/"
 const HOT_NOW_URL = BASE_URL
 const VIDEO_PAGE_URL = BASE_URL + "view_video.php"
+const SEARCH_PAGE_URL = BASE_URL +'search_result.php'
 const SOURCE_BEGIN_SPAN = "strencode2("
 const SOURCE_END_SPAN = "));"
 
@@ -18,6 +19,14 @@ const getIndexPageUrl = (args) => {
     if (args.page)
         return BASE_URL + "/v.php"+params+"page=" + args.page
     return BASE_URL + "/index.php"+params
+}
+
+const getSearchPageUrl =(args)=>{
+     let url =SEARCH_PAGE_URL+`?search_id=${args.search_id}&search_type=${args.search_type}&min_duration=`;
+    if(args.page){
+        url += 'page='+args.page;
+    }
+    return url
 }
 
 
@@ -42,10 +51,12 @@ module.exports = {
     BASE_URL: BASE_URL,
     HOT_NOW_URL: HOT_NOW_URL,
     VIDEO_PAGE_URL: VIDEO_PAGE_URL,
+    SEARCH_PAGE_URL: SEARCH_PAGE_URL, 
     CND_POOL: [],
     getIndexPageUrl: getIndexPageUrl,
     getVisitHeaders:getVisitHeaders,
     getVideoPageUrl:getVideoPageUrl,
+    getSearchPageUrl:getSearchPageUrl,
     SOURCE_BEGIN_SPAN:SOURCE_BEGIN_SPAN,
     SOURCE_END_SPAN:SOURCE_END_SPAN,
     setProxyCookie:setProxyCookie,

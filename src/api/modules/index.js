@@ -84,6 +84,15 @@ export function showIndexList(pageIdx,urlarg) {
     url: "/video/index/"+pageIdx+"?urlarg="+encodeURIComponent(urlarg),
   });
 }
+export function searchIndexList(search_id,search_type,page) {
+  if(!page)
+    page = 1
+  return service({
+    method: "get",
+    url: "/video/search/"+page+"?search_id="+search_id+"&search_type="+search_type,
+  });
+}
+
 export function showHotList(pageIdx) {
   if(!pageIdx)
     pageIdx = 1

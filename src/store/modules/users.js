@@ -63,7 +63,7 @@ export default {
       }
     },
     setWebProxyCookie(state, cookie) {
-      debugger
+      
       localStorage.setItem("proxycookie",cookie);
       state.proxycookie = cookie;
     }
@@ -133,7 +133,6 @@ export default {
     changeCookie({
       commit
     }, val) {
-      debugger
       commit('setWebProxyCookie', val)
     },
   },

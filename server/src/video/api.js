@@ -29,6 +29,20 @@ const index_page = async (args) => {
     return list_hot_now
 }
 
+const search_page = async (args) =>{
+    let headers = config.getVisitHeaders()
+    if(!headers.cookie){
+        throw new Error('查询必须拥有Cookie！');
+    }
+    let response = await axios({
+        method: 'get',
+        url: config.getSearchPageUrl(args),
+        headers: headers,
+    })
+    console.log(config.getSearchPageUrl(args))
+    let data = common.loadListFromSearchPageHTML(response.data) // {li: li, totalPage: maxpage}
+    return data
+}
 
 /**
  * 热门接口，可以传page字段
@@ -129,4 +143,5 @@ module.exports = {
     Down_Video:down_video,
     List_File:list_file,
     Load_Video_Link:parse_video_link,
+    Search_Page: search_page,
 }

@@ -43,14 +43,45 @@ router.get("/hot_now/:page", async (ctx) => {
 router.get("/index/:page", async (ctx) => {
     setProxyCookie(ctx)
     const args = { page: ctx.params.page, urlarg:ctx.query.urlarg }
-    let rsp = await API.Index_Page(args)
-    ctx.response.type = 'json';
-    ctx.response.body = {
-        data: rsp.li,
-        totalPage: rsp.totalPage
-    };
+    try{
+        let rsp = await API.Index_Page(args)
+        ctx.response.type = 'json';
+        ctx.response.body = {
+            data: rsp.li, // 当前页面的数据
+            totalPage: rsp.totalPage, // 总共有多少页
+            errorbox: rsp.errorbox,
+        };
+    }catch(err){ 
+        console.error(err)
+        ctx.status = err.statusCode || err.status || 500;
+        ctx.body =   err.message 
+    }
 })
 
+router.get("/search/:page",async (ctx)=>{
+    setProxyCookie(ctx)
+    const args = {
+        page: ctx.params.page,
+        search_id: ctx.query.search_id,
+        search_type:  ctx.query.search_type, 
+        min_duration: '',
+    }
+    
+    try{
+        let rsp = await API.Search_Page(args)
+        ctx.response.type = 'json';
+        ctx.response.body = {
+            data: rsp.li, // 当前页面的数据
+            totalPage: rsp.totalPage, // 总共有多少页
+            errorbox: rsp.errorbox,
+        };
+    }catch(err){ 
+        console.error(err)
+        ctx.status = err.statusCode || err.status || 500;
+        ctx.body =   err.message 
+    }
+    
+})
 
 router.get("/show/:viewkey", async (ctx) => {
     setProxyCookie(ctx)

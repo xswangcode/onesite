@@ -66,7 +66,58 @@ const loadListFromPageHTML = (html) => {
         let pagenumber = parseInt(strPage) | 0
         maxpage = maxpage > pagenumber ? maxpage :pagenumber
     } 
-    return { li: li, totalPage: maxpage }
+    let errorbox = ''
+    if(li.length==0){
+        errorbox = $(".errorbox")[0].children[0].data
+        if(!!errorbox){
+            errorbox = errorbox.replaceAll('\n','')
+        }
+    }
+    return { li: li, totalPage: maxpage , errorbox: errorbox}
+}
+
+// 解析search页面
+const loadListFromSearchPageHTML = (html) => {
+    let $ = cheerio.load(html)
+    const itemlist = $(".well.well-sm")
+    let li = []
+    for (let i = 0; i < itemlist.length; i++) {
+        let el = itemlist[i]
+        let html = cheerio.load(el).html()
+        let result_item = parseItem(html)
+        li.push(result_item)
+    }
+    // 分頁信息
+    let alist = $("span.pagingnav").parent().children() // 所有子节点
+    // 遍历后10个节点 取最大值
+    let last10 = alist.splice(-10)
+    let maxpage = 0;
+    for(let i =0 ;i< last10.length;i++){
+        let item  = last10[i]
+
+        let anodehref = item.attribs.href
+        let strPage = ''
+        try {
+            if(!anodehref){
+                strPage = item.children[0].data
+            }else{
+                strPage = getSearchParams(anodehref)["page"]
+            }
+        } catch (error) {
+            strPage = 0
+        }
+       
+        let pagenumber = parseInt(strPage) | 0
+        maxpage = maxpage > pagenumber ? maxpage :pagenumber
+    } 
+    let errorbox =""
+    if(li.length==0){
+        errorbox = $(".errorbox")[0].children[0].data
+        if(!!errorbox){
+            errorbox = errorbox.replaceAll('\n','')
+        }
+    }
+    return { li: li, totalPage: maxpage , errorbox: errorbox}
 }
 //endregion
 
@@ -166,6 +217,7 @@ const check_isdownload = (name)=>{
 
 module.exports = {
     loadListFromPageHTML: loadListFromPageHTML,
+    loadListFromSearchPageHTML: loadListFromSearchPageHTML,
     parsePageInfo: parsePageInfo,
     downloadFile: downloadFile,
     write_error_down_link,

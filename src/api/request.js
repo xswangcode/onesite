@@ -25,7 +25,6 @@ service.interceptors.request.use(
 // Response interceptors
 service.interceptors.response.use(
   (response) => {
-
     if (response.status !== 200) {
       ElMessage({
         type: "error",
@@ -33,12 +32,13 @@ service.interceptors.response.use(
       });
       return;
     }
-
     return response;
   },
   (error) => {
     // do something
-    return Promise.reject(error);
+    if(error.response.data == "read ECONNRESET")
+      return Promise.reject("服务器忙,请稍后再试~")
+    return Promise.reject(error.response.data);
   }
 );
 

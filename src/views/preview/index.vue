@@ -2,24 +2,32 @@
   <div>
     <div v-loading="table_config.isloading">
       <el-row :span="24">
-        <el-col :span="24">
-          <div style="width: 100vw">
-            <h2>表格布局<el-switch v-model="showPic"></el-switch></h2>
-          </div>
+        <el-col :span="7"> 
+          <el-select v-model="selectValue" placeholder="类别" style="width: 100px" class="select1">
+            <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-col> 
+        <el-col :span="3" :push="14"> 
+             <el-switch v-model="showPic" ></el-switch>  
         </el-col>
       </el-row>
 
       <el-row :span="24">
-        <el-col  class="content-item">
+        <el-col class="content-item">
           <!-- <el-col :span="24"> -->
           <el-input v-model="search_content" style="max-width: 93vw" placeholder="关键词" class="input-with-select">
-            <template #prepend>
-              <el-select v-model="selectValue" placeholder="类别" style="width: 115px">
+            <!-- <template #prepend>
+              <el-select v-model="selectValue" placeholder="类别" style="width: 100px" class="select1">
                 <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
-            </template>
+            </template> -->
             <template #append>
-              <el-button style="width: 50px" :icon="Search" @click="handleSearch" />
+              <el-button :icon="Search" @click="handleSearch" />
+            </template>
+            <template #suffix>
+              <el-select v-model="searchselectValue" style="width:100px;margin-right:-11px">
+                <el-option v-for="item in search_option" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
             </template>
           </el-input>
         </el-col>
@@ -37,15 +45,18 @@
           <el-link @click="handleCurrentChange(pagination_config.currentPage + 1)"> 下一页</el-link>
         </el-col>
       </el-row>
-      <el-row>
+
+      <!-- data -->
+
+      <el-row class="content_row">
         <el-scrollbar height="60vh" ref="congtentScrollbar">
-          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="content-item"
+          <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="5" class="content-item"
             v-for="(it, idx) in table_config.data">
             <div class="grid-content">
               <div style="display:none">
                 {{ it.id }}
               </div>
-              <div style="width: 350px;height: 255px;text-align:center"
+              <div style="width: 300px;height: 230px; text-align:center"
                 @click="preview_video(it.href, it.imgurl, it.title)">
                 <el-image style="max-width: 100%;max-height: 100%;" :src="it.imgurl" v-show="showPic" />
               </div>
@@ -108,6 +119,8 @@
           </el-col>
         </el-scrollbar>
       </el-row>
+
+      <!-- 分頁 -->
       <el-row style="margin-top: 15px;">
         <el-col>
           <div style="margin-left:10px">
@@ -124,7 +137,7 @@
 </template>
 
 <script setup name="video_page">
-import { downApi, showIndexList, loadVideoLink } from '../../api/modules/index';
+import { downApi, showIndexList, searchIndexList, loadVideoLink } from '../../api/modules/index';
 import { onMounted, reactive, ref, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from "element-plus";
@@ -134,7 +147,7 @@ const route = useRouter()
 const congtentScrollbar = ref(null)
 const search_content = ref("")
 const table_config = reactive({
-  isloading: true,
+  isloading: false,
   data: []
 })
 const selectoptions = [{
@@ -179,7 +192,18 @@ const selectoptions = [{
 },
 
 ]
+const search_option = [
+  {
+    value: 'search_videos',
+    label: '搜索视频',
+  },
+  {
+    value: 'search_video_id',
+    label: 'Video ID',
+  }
+]
 const selectValue = ref('category=hot&viewtype=basic')
+const searchselectValue = ref('search_videos')
 const showPic = ref()
 
 
@@ -224,7 +248,7 @@ const handleCurrentChange = (args) => {
 /**需要登录挺麻烦的**/
 const handleSearch = () => {
   if (search_content.value)
-    alert(search_content.value)
+    searchTableData(search_content.value, searchselectValue.value)
   else {
     loadTableData();
   }
@@ -244,31 +268,65 @@ const resizeWindows = () => {
     pagination_config.layout = "prev, pager, next, jumper"
 
   }
+  // 设置内容居中
+  // 获取元素宽度
+  let list = document.getElementsByClassName("content-item")
+  if(list.length>0){
+    let item = list[0]
+    let item_width = item.clientWidth
+    let page_width = window.innerWidth;
+    let other = page_width % item_width;
+    const content_row = document.getElementsByClassName("content_row")[0]
+    content_row.style.left = (other/2) +'px';
+  }
 }
 
-const loadTableData = () => {
+const loadTableData = () => { 
   table_config.isloading = true
-  showIndexList(pagination_config.currentPage, selectValue.value).then(data=>{
+  showIndexList(pagination_config.currentPage, selectValue.value).then(data => {
+    if(data.data.errorbox){
+      return Promise.reject(data.data.errorbox)
+    }
     table_config.data = data.data.data;
     pagination_config.total = data.data.totalPage * pagination_config.pageSize
     table_config.isloading = false
     // 回到最上面
     congtentScrollbar.value.setScrollTop(0)
-  }).catch(err=>{
-    ElMessage.error("服务器忙,请稍后再试")
-    table_config.isloading = false 
+  }).catch(err => {
+    ElMessage.error(err)
+    table_config.isloading = false
   })
   setTimeout(() => {
-    if(table_config.isloading){
+    if (table_config.isloading) {
       table_config.isloading = false
     }
   }, 5000);
-
+}
+const searchTableData = (keywords, type) => {
+  table_config.isloading = true
+  searchIndexList(keywords, type, pagination_config.currentPage).then(data => {
+    if(data.data.errorbox){
+      return Promise.reject(data.data.errorbox)
+    }
+    table_config.data = data.data.data;
+    pagination_config.total = data.data.totalPage * pagination_config.pageSize
+    table_config.isloading = false
+    // 回到最上面
+    congtentScrollbar.value.setScrollTop(0)
+  }).catch(err => {
+    ElMessage.error(err)
+    table_config.isloading = false
+  })
+  setTimeout(() => {
+    if (table_config.isloading) {
+      table_config.isloading = false
+    }
+  }, 5000);
 }
 
 const init = () => {
   resizeWindows()
-  loadTableData()
+  // loadTableData()
 }
 
 onMounted(() => {
@@ -314,8 +372,9 @@ const preview_video = async (href, img, title) => {
 }
 
 .content-item {
-  padding: 10px;
+  padding-right: 5px;
   font-size: 15px;
+  margin: 0 auto;
   font-family: Inter, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5fae\8f6f\96c5\9ed1, Arial, sans-serif;
 }
 
@@ -323,8 +382,9 @@ const preview_video = async (href, img, title) => {
   border-radius: 4px;
   padding: 10px 10px 5px 10px;
   padding-bottom: 20px;
-  height: 350px;
-  width: 298px;
+  margin-bottom: 10px !important;
+  height: 320px;
+  width: 325px;
   background-color: #e3e3e3;
   overflow: hidden;
 }
@@ -345,8 +405,8 @@ const preview_video = async (href, img, title) => {
   -webkit-line-clamp: 2;
   /* 这里是超出几行省略 */
   overflow: hidden;
+  height: 40px;
 }
-
 
 .info {
   font-size: 13px;
