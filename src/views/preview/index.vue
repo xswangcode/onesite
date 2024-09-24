@@ -270,15 +270,15 @@ const resizeWindows = () => {
   }
   // 设置内容居中
   // 获取元素宽度
-  let list = document.getElementsByClassName("content-item")
-  if(list.length>0){
-    let item = list[0]
-    let item_width = item.clientWidth
-    let page_width = window.innerWidth;
-    let other = page_width % item_width;
-    const content_row = document.getElementsByClassName("content_row")[0]
-    content_row.style.left = (other/2) +'px';
-  }
+  // let list = document.getElementsByClassName("content-item")
+  // if(list.length>0){
+  //   let item = list[0]
+  //   let item_width = item.clientWidth
+  //   let page_width = window.innerWidth;
+  //   let other = page_width % item_width;
+  //   const content_row = document.getElementsByClassName("content_row")[0]
+  //   content_row.style.left = (other/2) +'px';
+  // }
 }
 
 const loadTableData = () => { 
@@ -380,11 +380,11 @@ const preview_video = async (href, img, title) => {
 
 .grid-content {
   border-radius: 4px;
-  padding: 10px 10px 5px 10px;
+  padding: 10px 15px 5px 15px;
   padding-bottom: 20px;
   margin-bottom: 10px !important;
   height: 320px;
-  width: 325px;
+  width: 300px;
   background-color: #e3e3e3;
   overflow: hidden;
 }

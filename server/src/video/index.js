@@ -52,7 +52,6 @@ router.get("/index/:page", async (ctx) => {
             errorbox: rsp.errorbox,
         };
     }catch(err){ 
-        console.error(err)
         ctx.status = err.statusCode || err.status || 500;
         ctx.body =   err.message 
     }
@@ -76,7 +75,6 @@ router.get("/search/:page",async (ctx)=>{
             errorbox: rsp.errorbox,
         };
     }catch(err){ 
-        console.error(err)
         ctx.status = err.statusCode || err.status || 500;
         ctx.body =   err.message 
     }
