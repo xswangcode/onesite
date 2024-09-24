@@ -242,7 +242,7 @@ const handleCurrentChange = (args) => {
     args = pagination_config.pagerCount
   }
   pagination_config.currentPage = args
-  loadTableData()
+  handleSearch()
 }
 
 /**需要登录挺麻烦的**/
