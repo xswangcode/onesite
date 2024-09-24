@@ -18,7 +18,6 @@ const setProxyCookie = (ctx)=>{
         if(headers.proxycookie || headers.Proxycookie){
             config.setProxyCookie(headers.proxycookie || headers.Proxycookie)
         }
-        console.log(config.getVisitHeaders());
     }catch{
         console.log("设置代理cookie失败！忽略cookie。");
     }
