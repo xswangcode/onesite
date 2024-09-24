@@ -24,7 +24,7 @@ axios.interceptors.response.use(function (response) {
 
 const instance = axios.create({
     baseURL: config.BASE_URL,
-    timeout: 1500,
+    timeout: 5000,
     httpsAgent: new https.Agent({  
         rejectUnauthorized: false
     })

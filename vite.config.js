@@ -30,6 +30,7 @@ export default defineConfig({
     proxy:{
       "/video" : {
         target: 'http://127.0.0.1:5123/video/',
+        // target: 'http://192.168.0.23:5123/video/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/video/, '')
       }

@@ -5,6 +5,8 @@ const VIDEO_PAGE_URL = BASE_URL + "view_video.php"
 const SOURCE_BEGIN_SPAN = "strencode2("
 const SOURCE_END_SPAN = "));"
 
+let Proxy_Cookie = "";
+
 const getVideoPageUrl = (viewkey) => {
     return VIDEO_PAGE_URL + "?viewkey=" + viewkey;
 }
@@ -20,7 +22,7 @@ const getIndexPageUrl = (args) => {
 
 
 const getVisitHeaders = () => {
-    return { 
+    let header = { 
         "accept": "application/json, text/plain, */*",
         "accept-language": "zh-CN,zh;q=0.9",
         "cache-control": "no-cache",
@@ -28,6 +30,12 @@ const getVisitHeaders = () => {
         "Accept-Language": "zh-CN,zh;q=0.9",  
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" 
     }
+    if(Proxy_Cookie)
+        header['cookie'] = Proxy_Cookie
+    return header;
+}
+const setProxyCookie =  (cookie)=>{
+    Proxy_Cookie = cookie;
 }
 
 module.exports = {
@@ -40,5 +48,6 @@ module.exports = {
     getVideoPageUrl:getVideoPageUrl,
     SOURCE_BEGIN_SPAN:SOURCE_BEGIN_SPAN,
     SOURCE_END_SPAN:SOURCE_END_SPAN,
+    setProxyCookie:setProxyCookie,
 
 }

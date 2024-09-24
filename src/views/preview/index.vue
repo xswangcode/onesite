@@ -257,6 +257,9 @@ const loadTableData = () => {
   }).catch(err=>{
     ElMessage.error(err)
   })
+  setTimeout(() => {
+    table_config.isloading = false
+  }, 5000);
 
 }
 

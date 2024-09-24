@@ -12,6 +12,8 @@ service.interceptors.request.use(
   (config) => {
     if (localStorage.getItem('token'))
       config.headers.token = localStorage.getItem('token')
+    if (localStorage.getItem('proxycookie'))
+      config.headers.proxycookie = localStorage.getItem('proxycookie')
 
     return config;
   },

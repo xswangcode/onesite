@@ -14,7 +14,7 @@ export default {
   state: {
     UserInfo: {},
     token: sessionStorage.getItem("token") || "",
-    cookie: sessionStorage.getItem("cookie") || "",
+    proxycookie: localStorage.getItem("proxycookie") || "",
     isCollapse: true,
     themeConfig: {
       primary: "#4060c7",
@@ -29,9 +29,9 @@ export default {
     setToken(state, token) {
       state.token = token;
     },
-    setCookie(state, cookie) {
-      sessionStorage.setItem("cookie", cookie);
-      state.cookie = cookie;
+    setProxyCookie(state, cookie) {
+      localStorage.setItem("proxycookie", cookie);
+      state.proxycookie = cookie;
     },
     setUserInfo(state, userinfo) {
       state.UserInfo = userinfo;
@@ -132,7 +132,7 @@ export default {
     changeCookie({
       commit
     }, val) {
-      commit('setCookie',val)
+      commit('setProxyCookie',val)
     },
   },
 };
