@@ -256,6 +256,7 @@ const loadTableData = () => {
     congtentScrollbar.value.setScrollTop(0)
   }).catch(err=>{
     ElMessage.error(err)
+    table_config.isloading = falsetable_config.isloading = false
   })
   setTimeout(() => {
     table_config.isloading = false
