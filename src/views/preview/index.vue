@@ -2,34 +2,26 @@
   <div>
     <div v-loading="table_config.isloading">
       <el-row :span="24">
-        <el-col :span="7"> 
-          <el-select v-model="selectValue" placeholder="类别" style="width: 100px" class="select1">
-            <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-col> 
-        <el-col :span="3" :push="14"> 
-             <el-switch v-model="showPic" ></el-switch>  
-        </el-col>
-      </el-row>
-
-      <el-row :span="24">
-        <el-col class="content-item">
+        <el-col class="content-item" :span="22">
           <!-- <el-col :span="24"> -->
-          <el-input v-model="search_content" style="max-width: 93vw" placeholder="关键词" class="input-with-select">
-            <!-- <template #prepend>
-              <el-select v-model="selectValue" placeholder="类别" style="width: 100px" class="select1">
-                <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
+          <el-input v-model="search_content" style="max-width: 94vw" placeholder="关键词" class="input-with-select">
+            <template #prepend>
+              <el-select v-model="searchselectValue" style="width:100px;">
+                <el-option v-for="item in search_option" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
-            </template> -->
+            </template>
             <template #append>
               <el-button :icon="Search" @click="handleSearch" />
             </template>
             <template #suffix>
-              <el-select v-model="searchselectValue" style="width:100px;margin-right:-11px">
-                <el-option v-for="item in search_option" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="selectValue" placeholder="类别" style="width: 110px;margin-right:-11px" class="select1">
+                <el-option v-for="item in selectoptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </template>
           </el-input>
+        </el-col>
+        <el-col :span="2">
+          <el-switch v-model="showPic" width="30" style="transform: rotate(90deg);"></el-switch>
         </el-col>
       </el-row>
 
@@ -50,8 +42,7 @@
 
       <el-row class="content_row">
         <el-scrollbar height="60vh" ref="congtentScrollbar">
-          <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="5" class="content-item"
-            v-for="(it, idx) in table_config.data">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="content-item" v-for="(it, idx) in table_config.data">
             <div class="grid-content">
               <div style="display:none">
                 {{ it.id }}
@@ -163,10 +154,10 @@ const selectoptions = [{
   label: '非付费',
   value: 'category=nonpaid&viewtype=basic',
 }, {
-  label: '10分钟以上',
+  label: '10min以上',
   value: 'category=long&viewtype=basic',
 }, {
-  label: '20分钟以上',
+  label: '20min以上',
   value: 'category=longer&viewtype=basic',
 }, {
   label: '本月收藏',
@@ -199,7 +190,11 @@ const search_option = [
   },
   {
     value: 'search_video_id',
-    label: 'Video ID',
+    label: 'VideoID',
+  },
+  {
+    value: 'search_users',
+    label: '搜索用户',
   }
 ]
 const selectValue = ref('category=hot&viewtype=basic')
@@ -281,10 +276,10 @@ const resizeWindows = () => {
   // }
 }
 
-const loadTableData = () => { 
+const loadTableData = () => {
   table_config.isloading = true
   showIndexList(pagination_config.currentPage, selectValue.value).then(data => {
-    if(data.data.errorbox){
+    if (data.data.errorbox) {
       return Promise.reject(data.data.errorbox)
     }
     table_config.data = data.data.data;
@@ -305,7 +300,7 @@ const loadTableData = () => {
 const searchTableData = (keywords, type) => {
   table_config.isloading = true
   searchIndexList(keywords, type, pagination_config.currentPage).then(data => {
-    if(data.data.errorbox){
+    if (data.data.errorbox) {
       return Promise.reject(data.data.errorbox)
     }
     table_config.data = data.data.data;
@@ -411,5 +406,29 @@ const preview_video = async (href, img, title) => {
 .info {
   font-size: 13px;
   font-weight: 500;
+}
+
+@keyframes widthzero {
+  0% {
+    width: 50px;
+    padding: 0 11px;
+  }
+
+  50% { 
+    opacity: 0.3; 
+  } 
+  75% { 
+    opacity: 0.1; 
+  } 
+  100% {
+    width: 0px;
+    padding: 0px;
+    opacity: 0;
+  }
+}
+:deep(.el-input__inner:hover + .el-input__suffix) {
+  animation-name: widthzero;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 </style>;
