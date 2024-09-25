@@ -7,9 +7,13 @@ const CONFIG = require("./config/config")
 const cors = require('koa2-cors');
 const { koaBody } = require('koa-body');
 const {initList} = require("./store/downloadList")
+//统一错误异常处理
+const catchError = require("./middlewares/catcherror") 
 
 
 const app = new Koa();
+app.use(catchError); // 第一个必须
+
 app.use(cors());
 app.use(koaBody());
 app.use(static(__dirname + '/public', {

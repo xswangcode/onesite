@@ -41,7 +41,7 @@
       <!-- data -->
 
       <el-row class="content_row">
-        <el-scrollbar height="60vh" ref="congtentScrollbar">
+        <el-scrollbar style="height: calc(90vh - 120px)" ref="congtentScrollbar">
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="content-item" v-for="(it, idx) in table_config.data">
             <div class="grid-content">
               <div style="display:none">
@@ -200,7 +200,7 @@ const search_option = [
 const selectValue = ref('category=hot&viewtype=basic')
 const searchselectValue = ref('search_videos')
 const showPic = ref()
-
+const content_height = ref(69)
 
 const love = (args) => {
   alert("点赞了" + args)
@@ -256,11 +256,14 @@ const resizeWindows = () => {
     pagination_config.pagerCount = 5
     pagination_config.background = false
     pagination_config.layout = "prev, pager, next, jumper"
+    content_height.value = 69 
   } else {
     pagination_config.small = false
     pagination_config.pagerCount = 21
     pagination_config.background = true
     pagination_config.layout = "prev, pager, next, jumper"
+    content_height.value = 75
+
 
   }
   // 设置内容居中

@@ -36,8 +36,6 @@ service.interceptors.response.use(
   },
   (error) => {
     // do something
-    if(error.response.data == "read ECONNRESET")
-      return Promise.reject("服务器忙,请稍后再试~")
     return Promise.reject(error.response.data);
   }
 );

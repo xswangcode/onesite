@@ -82,7 +82,7 @@ const parse_video_link = async (link)=>{
     })
     let detail = common.parsePageInfo(response.data)
     if(!detail)
-        return "error:detail is null";
+        return Promise.reject("未成功解析到直链！");
     return detail["link"]
 }
 

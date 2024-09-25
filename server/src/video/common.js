@@ -141,7 +141,7 @@ const parsePageInfo = (detailHTML) => {
         console.log($.html())
         console.log(err)
         console.log("===========解析视频链接失败 -  end  ==============")
-        return null;
+        throw err
     }
 
     return result
