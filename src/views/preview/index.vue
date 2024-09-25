@@ -2,11 +2,11 @@
   <div>
     <div v-loading="table_config.isloading">
       <el-row :span="24">
-        <el-col class="content-item" :span="22">
+        <el-col class="content-item" :span="22" :lg="23">
           <!-- <el-col :span="24"> -->
-          <el-input v-model="search_content" style="max-width: 94vw" placeholder="关键词" class="input-with-select">
+          <el-input v-model="search_content" type="text" @keyup.enter.native="handleSearch()" style="max-width: 94vw" placeholder="关键词" class="input-with-select">
             <template #prepend>
-              <el-select v-model="searchselectValue" style="width:100px;">
+              <el-select v-model="searchselectValue"  style="width:100px;">
                 <el-option v-for="item in search_option" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </template>
@@ -20,7 +20,7 @@
             </template>
           </el-input>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" :lg="1"  >
           <el-switch v-model="showPic" width="30" style="transform: rotate(90deg);"></el-switch>
         </el-col>
       </el-row>
