@@ -17,8 +17,8 @@ const getIndexPageUrl = (args) => {
     if(args.urlarg)
         params  += args.urlarg+"&"
     if (args.page)
-        return BASE_URL + "/v.php"+params+"page=" + args.page
-    return BASE_URL + "/index.php"+params
+        return BASE_URL + "v.php"+params+"page=" + args.page
+    return BASE_URL + "index.php"+params
 }
 
 const getSearchPageUrl =(args)=>{
