@@ -211,6 +211,8 @@ const check_isdownload = (name)=>{
     let filterRes = data.filter(el=>{
         return name.indexOf(el.name) > -1 || el.name.indexOf(name) > -1
     })
+    console.log("查重结果：",filterRes);
+    
     return filterRes.length>0
 }
 //endregion
