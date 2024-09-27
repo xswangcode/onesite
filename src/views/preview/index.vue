@@ -39,7 +39,6 @@
       </el-row>
 
       <!-- data -->
-
       <el-row class="content_row">
         <el-scrollbar style="height: calc(90vh - 120px)" ref="congtentScrollbar">
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="content-item" v-for="(it, idx) in table_config.data">
@@ -114,7 +113,7 @@
       <!-- 分頁 -->
       <el-row style="margin-top: 15px;">
         <el-col>
-          <div style="margin-left:10px">
+          <div style="margin-top: -15px">
             <el-pagination v-model:current-page="pagination_config.currentPage"
               v-model:page-size="pagination_config.pageSize" :small="pagination_config.small"
               :pager-count="pagination_config.pagerCount" :background="pagination_config.background"
@@ -433,5 +432,10 @@ const preview_video = async (href, img, title) => {
   animation-name: widthzero;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
+}
+.content_row{
+  border-top: 1px solid rgb(184, 182, 182) ;
+  padding: 5px 0px;
+  border-bottom: 1px solid rgb(184, 182, 182) ;
 }
 </style>;
