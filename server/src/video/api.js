@@ -70,7 +70,7 @@ const detail_page = async (viewkey) => {
         headers: config.getVisitHeaders(),
         url: config.getVideoPageUrl(viewkey)
     })
-    let info = common.parsePageInfo(response.data)
+    let info = await common.parsePageInfo(response.data)
     return info
 }
 
@@ -80,7 +80,7 @@ const parse_video_link = async (link)=>{
         url:link,
         headers:config.getVisitHeaders(),
     })
-    let detail = common.parsePageInfo(response.data)
+    let detail = await common.parsePageInfo(response.data)
     if(!detail)
         return Promise.reject("未成功解析到直链！");
     return detail["link"]
@@ -98,7 +98,7 @@ const down_video = async (link, file_name) => {
         url:link,
         headers:config.getVisitHeaders(),
     })
-    let detail = common.parsePageInfo(response.data)
+    let detail =  await common.parsePageInfo(response.data)
     if(!detail){
         common.write_error_down_link(link,file_name,0)
         return Promise.reject("detail is null");

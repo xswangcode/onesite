@@ -48,32 +48,32 @@ const loadListFromPageHTML = (html) => {
     // 遍历后10个节点 取最大值
     let last10 = alist.splice(-10)
     let maxpage = 0;
-    for(let i =0 ;i< last10.length;i++){
-        let item  = last10[i]
+    for (let i = 0; i < last10.length; i++) {
+        let item = last10[i]
 
         let anodehref = item.attribs.href
         let strPage = ''
         try {
-            if(!anodehref){
+            if (!anodehref) {
                 strPage = item.children[0].data
-            }else{
+            } else {
                 strPage = getSearchParams(anodehref)["page"]
             }
         } catch (error) {
             strPage = 0
         }
-       
+
         let pagenumber = parseInt(strPage) | 0
-        maxpage = maxpage > pagenumber ? maxpage :pagenumber
-    } 
+        maxpage = maxpage > pagenumber ? maxpage : pagenumber
+    }
     let errorbox = ''
-    if(li.length==0){
+    if (li.length == 0) {
         errorbox = $(".errorbox")[0].children[0].data
-        if(!!errorbox){
-            errorbox = errorbox.replaceAll('\n','')
+        if (!!errorbox) {
+            errorbox = errorbox.replaceAll('\n', '')
         }
     }
-    return { li: li, totalPage: maxpage , errorbox: errorbox}
+    return { li: li, totalPage: maxpage, errorbox: errorbox }
 }
 
 // 解析search页面
@@ -92,60 +92,97 @@ const loadListFromSearchPageHTML = (html) => {
     // 遍历后10个节点 取最大值
     let last10 = alist.splice(-10)
     let maxpage = 0;
-    for(let i =0 ;i< last10.length;i++){
-        let item  = last10[i]
+    for (let i = 0; i < last10.length; i++) {
+        let item = last10[i]
 
         let anodehref = item.attribs.href
         let strPage = ''
         try {
-            if(!anodehref){
+            if (!anodehref) {
                 strPage = item.children[0].data
-            }else{
+            } else {
                 strPage = getSearchParams(anodehref)["page"]
             }
         } catch (error) {
             strPage = 0
         }
-       
+
         let pagenumber = parseInt(strPage) | 0
-        maxpage = maxpage > pagenumber ? maxpage :pagenumber
-    } 
-    let errorbox =""
-    if(li.length==0){
+        maxpage = maxpage > pagenumber ? maxpage : pagenumber
+    }
+    let errorbox = ""
+    if (li.length == 0) {
         errorbox = $(".errorbox")[0].children[0].data
-        if(!!errorbox){
-            errorbox = errorbox.replaceAll('\n','')
+        if (!!errorbox) {
+            errorbox = errorbox.replaceAll('\n', '')
         }
     }
-    return { li: li, totalPage: maxpage , errorbox: errorbox}
+    return { li: li, totalPage: maxpage, errorbox: errorbox }
 }
 //endregion
 
 //region 解析视频详情页
-const parsePageInfo = (detailHTML) => {
-    let $ = cheerio.load(detailHTML)
+// 1. 解析1
+const parsePageInfo =  async  (detailHTML) => {
     let result = {}
-    try {
-        let player = $("#player_one")
-        let sourceHTML = player.html().replaceAll("\n", "").replaceAll("\t", "")
-        let beginSpan = config.SOURCE_BEGIN_SPAN
-        let endSpan = config.SOURCE_END_SPAN
-        let begin = sourceHTML.indexOf(beginSpan) + beginSpan.length
-        let end = sourceHTML.indexOf(endSpan)
-        let link = sourceHTML.substring(begin, end)
-        let text = DecryptUtils.strencode2(link)
-        let sourceTag = cheerio.load(text)
-        result["link"] = sourceTag("source")[0].attribs['src']
-    } catch (err) {
-        console.log("===========解析视频链接失败 - begin ==============")
-        console.log($.html())
-        console.log(err)
-        console.log("===========解析视频链接失败 -  end  ==============")
-        throw err
-    }
+    let Process_Array = [getVideoURL1, getVideoURL2] // 后续有其他解析方式在这里扩展就好
+    for (let index = Process_Array.length - 1; index >= 0; index--) { // 倒序解析，一般情况下后出的解析方式都是最新的
+        try {
+            const processfun =  Process_Array[index];
+            let tmp_res =  await processfun(detailHTML) 
 
+            if (tmp_res) {
+                result = tmp_res;
+                break;
+            }
+        } catch (error) {
+            console.log("解析视频链接方式" + (index + 1) + "解析失败！");
+        }
+    }
+    if (!result['link']) {
+        throw new Error("解析视频链接失败")
+    }
     return result
 }
+
+// 2. 解析失败使用这个方式再次尝试一下
+const getVideoURL1 = (html) => {
+    let $ = cheerio.load(html)
+    let player = $("#player_one")
+    let result = {}
+    let sourceHTML = player.html().replaceAll("\n", "").replaceAll("\t", "")
+    let beginSpan = config.SOURCE_BEGIN_SPAN
+    let endSpan = config.SOURCE_END_SPAN
+    let begin = sourceHTML.indexOf(beginSpan) + beginSpan.length
+    let end = sourceHTML.indexOf(endSpan)
+    let link = sourceHTML.substring(begin, end)
+    let text = DecryptUtils.strencode2(link)
+    let sourceTag = cheerio.load(text)
+    result["link"] = sourceTag("source")[0].attribs['src']
+    return  Promise.resolve(result);
+}
+const getVideoURL2 =  (html) => {
+    let result = {}
+    let begin = html.indexOf("encryptedUrl: '") > 0 ? html.indexOf("encryptedUrl: '") + "encryptedUrl: '".length : 0;
+    let end = html.indexOf("' }),") > 0 ? html.indexOf("' }),") : 0;
+
+    if (begin == end || end < begin)
+        throw new Error("解析encryptedUrl失败！")
+    let encryptedUrl = html.substring(begin, end);
+
+    let back =   fetch(config.BASE_URL + 'get_decrypted_video.php', {
+        method: 'POST',
+        body: JSON.stringify({ encryptedUrl: encryptedUrl }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.videoUrl) {
+            result["link"] = data.videoUrl
+            return result;
+        } 
+    })
+    return back;
+}
+
 
 const getYMD = () => {
     const now = new Date();
@@ -182,8 +219,8 @@ const downloadFile = async (link, fileName) => {
 }
 
 const getSearchParams = (url) => {
-    console.log("url==>",url)
-    if(!url){
+    console.log("url==>", url)
+    if (!url) {
         return {}
     }
     // 获取查询参数前的 ? 对应的索引位置
@@ -201,19 +238,19 @@ const getSearchParams = (url) => {
     }, {})
 }
 
-const write_error_down_link = (name,link,vid)=>{
+const write_error_down_link = (name, link, vid) => {
     let res = `${vid}\t\t\t${name}\t\t\t${link}\n`
-    fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH +"/"+getYMD()+"/downerror.log",res)
+    fs.appendFileSync(config.ERROE_DOWN_LOG_FILE_PATH + "/" + getYMD() + "/downerror.log", res)
 }
 
-const check_isdownload = (name)=>{
+const check_isdownload = (name) => {
     let data = getDownloadedList()
-    let filterRes = data.filter(el=>{
+    let filterRes = data.filter(el => {
         return name.indexOf(el.name) > -1 || el.name.indexOf(name) > -1
     })
-    console.log("查重结果：",filterRes);
-    
-    return filterRes.length>0
+    console.log("查重结果：", filterRes);
+
+    return filterRes.length > 0
 }
 //endregion
 
@@ -223,6 +260,6 @@ module.exports = {
     parsePageInfo: parsePageInfo,
     downloadFile: downloadFile,
     write_error_down_link,
-    check_isdownload:check_isdownload,
-    getYMD:getYMD,
+    check_isdownload: check_isdownload,
+    getYMD: getYMD,
 }
