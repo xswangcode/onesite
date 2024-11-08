@@ -20,23 +20,28 @@
                     <ArrowUp v-if="sortedStatus['createdAt'] > 0"></ArrowUp>
                     <ArrowDown v-else></ArrowDown>
                 </el-icon> </el-col>
-        </el-row> <el-row :span="24">
+        </el-row> 
+       
+        <el-row :span="24">
             <el-col :span="2" :pull="0"> </el-col>
             <el-col :span="10" :pull="1" style="margin-left: 10px;">
                 <el-link type="success" @click="visit_dir('')"> <span style="font-size:25px">..</span> </el-link>
             </el-col>
         </el-row>
-        <el-row v-for="(item, idx) in dataList" :span="24" style="padding-top: 20px;">
-            <el-col :span="2" :pull="0"> {{ idx + 1 }} </el-col>
-            <el-col :span="10" :pull="1" style="margin-left: 10px;margin-right: 13px;">
-                <el-link type="success" @click="preview_video(item.path, item.name)" v-if="!item.isDirectory">{{
-            item.name }} </el-link>
-                <el-link type="primary" @click="visit_dir(item.name)" v-if="item.isDirectory">{{ item.name }}
-                    【目录】</el-link>
-            </el-col>
-            <el-col :span="6"> {{ item.size }} </el-col>
-            <el-col :span="3"> {{ new Date(item.createdAt).toLocaleTimeString() }} </el-col>
-        </el-row>
+        <div style=" height: calc(100vh - 175px - 100px ); overflow-y: scroll; overflow-x:hidden">
+            <el-row v-for="(item, idx) in dataList" :span="24" style="padding-top: 20px;" class="videolist">
+                <el-col :span="2" :pull="0"> {{ idx + 1 }} </el-col>
+                <el-col :span="10" :pull="1" style="margin-left: 10px;margin-right: 13px;">
+                    <el-link type="success" @click="preview_video(item.path, item.name)" v-if="!item.isDirectory">{{
+                item.name }} </el-link>
+                    <el-link type="primary" @click="visit_dir(item.name)" v-if="item.isDirectory">{{ item.name }}
+                        【目录】</el-link>
+                </el-col>
+                <el-col :span="6"> {{ item.size }} </el-col>
+                <el-col :span="3"> {{ new Date(item.createdAt).toLocaleTimeString() }} </el-col>
+            </el-row>
+        </div>
+       
     </div>
 </template>
 
@@ -84,3 +89,7 @@ const visit_dir = async (path) => {
     })
 }
 </script>
+<style>
+.videolist{
+}
+</style>
