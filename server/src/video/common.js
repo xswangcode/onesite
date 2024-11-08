@@ -35,7 +35,7 @@ const parseItem = (itemhtml) => {
 
 const loadListFromPageHTML = (html) => {
     let $ = cheerio.load(html)
-    const itemlist = $(".well.well-sm.videos-text-align")
+    const itemlist = $(".col-xs-12.col-sm-4.col-md-3.col-lg-3")
     let li = []
     for (let i = 0; i < itemlist.length; i++) {
         let el = itemlist[i]
