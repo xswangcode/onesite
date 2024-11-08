@@ -5,7 +5,7 @@ const config = require("../../config/config")
 const fs = require("fs");
 const path = require("path");
 const Aria2Utils = require('../../utils/Aria2DownloadUtil');
-const { getDownloadedList } = require('../../store/downloadList')
+const { getDownloadedList,addFile } = require('../../store/downloadList')
 
 
 //region 解析列表页
@@ -210,6 +210,8 @@ const downloadFile = async (link, fileName) => {
         console.log("正在下载: " + fileName)
         console.log(link)
         await Aria2Utils.pushUrlDownload(link, fileName, path_file);
+        // 添加到本地下载目录
+        addFile(fileName,path_file)
         return Promise.resolve(path_file + fileName)
     } catch (err) {
         console.log("==============存储文件失败 - begin ================")
